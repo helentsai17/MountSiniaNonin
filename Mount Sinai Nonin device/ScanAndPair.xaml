@@ -1,0 +1,46 @@
+﻿<Page
+    x:Class="Mount_Sinai_Nonin_device.ScanAndPair"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Mount_Sinai_Nonin_device"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        <DataTemplate x:Key="ResultsListViewTemplate"  x:DataType="local:BluetoothLEDeviceDisplay">
+            <Grid Margin="5">
+                <StackPanel Grid.Column="1" Margin="5">
+                    <TextBlock TextWrapping="WrapWholeWords">
+                        Name: <Run Text="{x:Bind Name, Mode=OneWay}"  FontWeight="Bold"/>
+                    </TextBlock>
+                    <TextBlock>
+                        IsPaired: <Run Text="{x:Bind IsPaired, Mode=OneWay}"/>, IsConnected: <Run Text="{x:Bind IsConnected, Mode=OneWay}"/>, IsConnectable:<Run Text="{x:Bind IsConnectable, Mode=OneWay}"/>
+                    </TextBlock>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <TextBlock Text="Mount Sinai Nonin 3150 device" FontSize="30"/>
+            <TextBlock Text="Find device Nonin 3150 and lick pair if it's already paired(IsPaird: true) move to the next step"/>
+            <Button x:Name="EnumerateButton" Content="Start finding device" Click="{x:Bind EnumerateButton_Click}" />
+            <Button x:Name="PairButton" Content="Pair" Click="{x:Bind PairButton_Click}" Margin="0,0,10,0"
+                    IsEnabled="{x:Bind Not(ResultsListView.SelectedItem.(local:BluetoothLEDeviceDisplay.IsPaired)), FallbackValue=False, Mode=OneWay}" />
+        </StackPanel>
+        <ScrollViewer VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto" Grid.Row="1" Margin="0,10,0,0"
+                      BorderBrush="Black" BorderThickness="1">
+
+            <ListView x:Name="ResultsListView"
+                      ItemTemplate="{StaticResource ResultsListViewTemplate}"
+                      ItemsSource="{x:Bind KnownDevices, Mode=OneWay}"/>
+        </ScrollViewer>
+    </Grid>
+</Page>

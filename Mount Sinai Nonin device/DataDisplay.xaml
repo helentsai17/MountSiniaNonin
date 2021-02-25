@@ -1,0 +1,43 @@
+﻿<Page
+    x:Class="Mount_Sinai_Nonin_device.DataDisplay"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Mount_Sinai_Nonin_device"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Column="2" x:Name="checkstatus" TextWrapping="Wrap"/>
+        <Button x:Name="ConnectButton" Content="Connect" Click="{x:Bind ConnectButton_Click}" Margin="0,10,0,0"/>
+        <ComboBox Grid.Row="1" Grid.Column="2" x:Name="ServiceList" Margin="0,10,0,0" PlaceholderText="Choose a service" Visibility="Collapsed"
+                      SelectionChanged="{x:Bind ServiceList_SelectionChanged}"/>
+        <ComboBox Grid.Row="1" Grid.Column="2" x:Name="CharacteristicList" Margin="0,10,0,0" PlaceholderText="Choose a characteristic" Visibility="Collapsed"/>
+        
+        <TextBlock Grid.Column="1" x:Name="SelectedDeviceRun" Text="Device Name"/>
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Hart Rate" FontSize="30" TextWrapping="Wrap"/>
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="68" FontSize="80"/>
+
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="SPO2" FontSize="30" TextWrapping="Wrap"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" Text="98" FontSize="80" />
+
+        <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal">
+            <Button x:Name="CharacteristicReadButton" Content="Read Value" 
+                        Visibility="Collapsed" Margin="0,10,10,0"/>
+            <Button x:Name="ValueChangedSubscribeToggle" Content="Subscribe to value changes" 
+                        Visibility="Collapsed" Margin="0,10,10,0"/>
+        </StackPanel>
+
+    </Grid>
+</Page>

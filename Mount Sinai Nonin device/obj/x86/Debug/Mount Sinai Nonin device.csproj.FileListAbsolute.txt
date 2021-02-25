@@ -1,0 +1,60 @@
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\App.xbf
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\DataDisplay.xbf
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\MainPage.xbf
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\ScanAndPair.xbf
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\Mount Sinai Nonin device.xr.xml
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\Mount Sinai Nonin device.exe
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\Mount Sinai Nonin device.pdb
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\resources.pri
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\AppxManifest.xml
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\Core\AppxManifest.xml
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\Core\Mount Sinai Nonin device.exe
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\Mount Sinai Nonin device.build.appxrecipe
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\System.Runtime.dll
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\Microsoft.UI.Xaml.Markup.winmd
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\Mount Sinai Nonin device.csprojAssemblyReference.cache
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\App.g.i.cs
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\App.g.cs
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\DataDisplay.g.i.cs
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\DataDisplay.g.cs
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\MainPage.g.i.cs
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\MainPage.g.cs
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\ScanAndPair.g.i.cs
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\ScanAndPair.g.cs
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\XamlTypeInfo.g.cs
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\App.xaml
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\DataDisplay.xaml
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\MainPage.xaml
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\ScanAndPair.xaml
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\App.xbf
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\DataDisplay.xbf
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\MainPage.xbf
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\ScanAndPair.xbf
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\XamlSaveStateFile.xml
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\Mount Sinai Nonin device.csproj.CoreCompileInputs.cache
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\Mount Sinai Nonin device.csproj.CopyComplete
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\Mount Sinai Nonin device.exe
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\Mount Sinai Nonin device.pdb
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\ResourceHandlingTask.state
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\priconfig.xml
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\priconfig.xml.intermediate
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\unfiltered.layout.resfiles
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\unfiltered.layout.resfiles.intermediate
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\filtered.layout.resfiles
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\filtered.layout.resfiles.intermediate
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\excluded.layout.resfiles
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\excluded.layout.resfiles.intermediate
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\resources.resfiles
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\resources.resfiles.intermediate
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\pri.resfiles
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\pri.resfiles.intermediate
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\qualifiers.txt
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\qualifiers.txt.intermediate
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\MultipleQualifiersPerDimensionFound.txt
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\ProjectArchitectures.txt
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\.winmd_cache\$Microsoft.UI.Xaml.Markup.winmd_636885490160000000.json
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\UserInfo.xbf
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\UserInfo.g.i.cs
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\UserInfo.g.cs
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\UserInfo.xaml
+C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\obj\x86\Debug\UserInfo.xbf
