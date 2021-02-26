@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using System.Threading.Tasks;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Devices.Enumeration;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Security.Cryptography;
+using Windows.Storage.Streams;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -28,12 +32,14 @@ namespace Mount_Sinai_Nonin_device
     
     public sealed partial class DataDisplay : Page
     {
-
         private MainPage rootPage = MainPage.Current;
-        private BluetoothLEDevice bluetoothLeDevice = null;
 
-        private GattCharacteristic registeredCharacteristic;
+        private BluetoothLEDevice bluetoothLeDevice = null;
         private GattCharacteristic selectedCharacteristic;
+
+        // Only one registered characteristic at a time.
+        private GattCharacteristic registeredCharacteristic;
+        private GattPresentationFormat presentationFormat;
 
         public DataDisplay()
         {
@@ -46,6 +52,15 @@ namespace Mount_Sinai_Nonin_device
             if (string.IsNullOrEmpty(rootPage.SelectedBleDeviceId))
             {
                 ConnectButton.IsEnabled = false;
+            }
+        }
+
+        protected override async void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            var success = await ClearBluetoothLEDeviceAsync();
+            if (!success)
+            {
+               // rootPage.NotifyUser("Error: Unable to reset app state", NotifyType.ErrorMessage);
             }
         }
 
@@ -89,7 +104,7 @@ namespace Mount_Sinai_Nonin_device
 
                 if (bluetoothLeDevice == null)
                 {
-                    checkstatus.Text = "dose not find the bluetooth device" + rootPage.SelectedBleDeviceId;
+                    //checkstatus.Text = "dose not find the bluetooth device" + rootPage.SelectedBleDeviceId;
                  //   rootPage.NotifyUser("Failed to connect to device.", NotifyType.ErrorMessage);
                 }
             }
@@ -189,22 +204,293 @@ namespace Mount_Sinai_Nonin_device
             CharacteristicList.Visibility = Visibility.Visible;
         }
 
-
         //remove the characteristic that is already excited so that can be able to add new in
         private void RemoveValueChangedHandler()
         {
             ValueChangedSubscribeToggle.Content = "Subscribe to value changes";
             if (subscribedForNotifications)
             {
-               // registeredCharacteristic.ValueChanged -= Characteristic_ValueChanged;
+                registeredCharacteristic.ValueChanged -= Characteristic_ValueChanged;
                 registeredCharacteristic = null;
                 subscribedForNotifications = false;
             }
         }
 
+        private async void CharacteristicList_SelectionChanged()
+        {
+            selectedCharacteristic = (GattCharacteristic)((ComboBoxItem)CharacteristicList.SelectedItem)?.Tag;
+            if (selectedCharacteristic == null)
+            {
+                EnableCharacteristicPanels(GattCharacteristicProperties.None);
+                //rootPage.NotifyUser("No characteristic selected", NotifyType.ErrorMessage);
+                return;
+            }
+
+            // Get all the child descriptors of a characteristics. Use the cache mode to specify uncached descriptors only 
+            // and the new Async functions to get the descriptors of unpaired devices as well. 
+            var result = await selectedCharacteristic.GetDescriptorsAsync(BluetoothCacheMode.Uncached);
+            if (result.Status != GattCommunicationStatus.Success)
+            {
+                
+                // rootPage.NotifyUser("Descriptor read failure: " + result.Status.ToString(), NotifyType.ErrorMessage);
+            }
+
+            // BT_Code: There's no need to access presentation format unless there's at least one. 
+            presentationFormat = null;
+            if (selectedCharacteristic.PresentationFormats.Count > 0)
+            {
+
+                if (selectedCharacteristic.PresentationFormats.Count.Equals(1))
+                {
+                    // Get the presentation format since there's only one way of presenting it
+                    presentationFormat = selectedCharacteristic.PresentationFormats[0];
+                    checkstatus.Text = "presentation Format " + presentationFormat;
+                }
+                else
+                {
+                    // It's difficult to figure out how to split up a characteristic and encode its different parts properly.
+                    // In this case, we'll just encode the whole thing to a string to make it easy to print out.
+                }
+            }
+
+            // Enable/disable operations based on the GattCharacteristicProperties.
+            EnableCharacteristicPanels(selectedCharacteristic.CharacteristicProperties);
+        }
+
+        private void EnableCharacteristicPanels(GattCharacteristicProperties properties)
+        {
+            // BT_Code: Hide the controls which do not apply to this characteristic.
+            SetVisibility(CharacteristicReadButton, properties.HasFlag(GattCharacteristicProperties.Read));
 
 
+            SetVisibility(ValueChangedSubscribeToggle, properties.HasFlag(GattCharacteristicProperties.Indicate) ||
+                                                       properties.HasFlag(GattCharacteristicProperties.Notify));
+
+        }
+
+        private void SetVisibility(UIElement element, bool visible)
+        {
+            element.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        /// <summary>
+        /// after finding the characher after here are reading the value  and formating 
+        /// </summary>
+        private async void CharacteristicReadButton_Click()
+        {
+            // BT_Code: Read the actual value from the device by using Uncached.
+            GattReadResult result = await selectedCharacteristic.ReadValueAsync(BluetoothCacheMode.Uncached);
+            if (result.Status == GattCommunicationStatus.Success)
+            {
+                string formattedResult = FormatValueByPresentation(result.Value, presentationFormat);
+                //rootPage.NotifyUser($"Read result: {formattedResult}", NotifyType.StatusMessage);
+            }
+            else
+            {
+                //rootPage.NotifyUser($"Read failed: {result.Status}", NotifyType.ErrorMessage);
+            }
+        }
 
         private bool subscribedForNotifications = false;
+        private async void ValueChangedSubscribeToggle_Click()
+        {
+            if (!subscribedForNotifications)
+            {
+                // initialize status
+                GattCommunicationStatus status = GattCommunicationStatus.Unreachable;
+                var cccdValue = GattClientCharacteristicConfigurationDescriptorValue.None;
+                if (selectedCharacteristic.CharacteristicProperties.HasFlag(GattCharacteristicProperties.Indicate))
+                {
+                    cccdValue = GattClientCharacteristicConfigurationDescriptorValue.Indicate;
+                }
+
+                else if (selectedCharacteristic.CharacteristicProperties.HasFlag(GattCharacteristicProperties.Notify))
+                {
+                    cccdValue = GattClientCharacteristicConfigurationDescriptorValue.Notify;
+                }
+
+                try
+                {
+                    // BT_Code: Must write the CCCD in order for server to send indications.
+                    // We receive them in the ValueChanged event handler.
+                    status = await selectedCharacteristic.WriteClientCharacteristicConfigurationDescriptorAsync(cccdValue);
+
+                    if (status == GattCommunicationStatus.Success)
+                    {
+                        AddValueChangedHandler();
+                       // rootPage.NotifyUser("Successfully subscribed for value changes", NotifyType.StatusMessage);
+                    }
+                    else
+                    {
+                        //rootPage.NotifyUser($"Error registering for value changes: {status}", NotifyType.ErrorMessage);
+                    }
+                }
+                catch (UnauthorizedAccessException ex)
+                {
+                    // This usually happens when a device reports that it support indicate, but it actually doesn't.
+                    //rootPage.NotifyUser(ex.Message, NotifyType.ErrorMessage);
+                }
+            }
+            else
+            {
+                try
+                {
+                    // BT_Code: Must write the CCCD in order for server to send notifications.
+                    // We receive them in the ValueChanged event handler.
+                    // Note that this sample configures either Indicate or Notify, but not both.
+                    var result = await
+                            selectedCharacteristic.WriteClientCharacteristicConfigurationDescriptorAsync(
+                                GattClientCharacteristicConfigurationDescriptorValue.None);
+                    if (result == GattCommunicationStatus.Success)
+                    {
+                        subscribedForNotifications = false;
+                        RemoveValueChangedHandler();
+                       // rootPage.NotifyUser("Successfully un-registered for notifications", NotifyType.StatusMessage);
+                    }
+                    else
+                    {
+                       // rootPage.NotifyUser($"Error un-registering for notifications: {result}", NotifyType.ErrorMessage);
+                    }
+                }
+                catch (UnauthorizedAccessException ex)
+                {
+                    // This usually happens when a device reports that it support notify, but it actually doesn't.
+                   // rootPage.NotifyUser(ex.Message, NotifyType.ErrorMessage);
+                }
+            }
+        }
+
+        private void AddValueChangedHandler()
+        {
+            ValueChangedSubscribeToggle.Content = "Unsubscribe from value changes";
+            if (!subscribedForNotifications)
+            {
+                registeredCharacteristic = selectedCharacteristic;
+                registeredCharacteristic.ValueChanged += Characteristic_ValueChanged;
+                subscribedForNotifications = true;
+            }
+        }
+
+        private async void Characteristic_ValueChanged(GattCharacteristic sender, GattValueChangedEventArgs args)
+        {
+            // BT_Code: An Indicate or Notify reported that the value has changed.
+            // Display the new value with a timestamp.
+            var newValue = FormatValueByPresentation(args.CharacteristicValue, presentationFormat);
+            var message =  newValue;
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                () => CharacteristicLatestValue.Text = message);
+        }
+
+
+        private string FormatValueByPresentation(IBuffer buffer, GattPresentationFormat format)
+        {
+            // BT_Code: For the purpose of this sample, this function converts only UInt32 and
+            // UTF-8 buffers to readable text. It can be extended to support other formats if your app needs them.
+            byte[] data;
+            CryptographicBuffer.CopyToByteArray(buffer, out data);
+            if (format != null)
+            {
+                if (format.FormatType == GattPresentationFormatTypes.UInt32 && data.Length >= 4)
+                {
+                    return BitConverter.ToInt32(data, 0).ToString();
+                }
+                else if (format.FormatType == GattPresentationFormatTypes.Utf8)
+                {
+                    try
+                    {
+                        return Encoding.UTF8.GetString(data);
+                    }
+                    catch (ArgumentException)
+                    {
+                        return "(error: Invalid UTF-8 string)";
+                    }
+                }
+                else
+                {
+                    // Add support for other format types as needed.
+                    return "Unsupported format: " + CryptographicBuffer.EncodeToHexString(buffer);
+                }
+            }
+            else if (data != null)
+            {
+                // We don't know what format to use. Let's try some well-known profiles, or default back to UTF-8.
+                if (selectedCharacteristic.Uuid.Equals(GattCharacteristicUuids.HeartRateMeasurement))
+                {
+                    try
+                    {
+                        return ParseHeartRateValue(data).ToString();
+                    }
+                    catch (ArgumentException)
+                    {
+                        return "Heart Rate: (unable to parse)";
+                    }
+                }
+                else if (selectedCharacteristic.Uuid.Equals(GattCharacteristicUuids.BatteryLevel))
+                {
+                    try
+                    {
+                        // battery level is encoded as a percentage value in the first byte according to
+                        // https://www.bluetooth.com/specifications/gatt/viewer?attributeXmlFile=org.bluetooth.characteristic.battery_level.xml
+                        return "Battery Level: " + data[0].ToString() + "%";
+                    }
+                    catch (ArgumentException)
+                    {
+                        return "Battery Level: (unable to parse)";
+                    }
+                }
+                // This is our custom calc service Result UUID. Format it like an Int
+                else if (selectedCharacteristic.Uuid.Equals(Constants.ResultCharacteristicUuid))
+                {
+                    return BitConverter.ToInt32(data, 0).ToString();
+                }
+                // No guarantees on if a characteristic is registered for notifications.
+                else if (registeredCharacteristic != null)
+                {
+                    // This is our custom calc service Result UUID. Format it like an Int
+                    if (registeredCharacteristic.Uuid.Equals(Constants.ResultCharacteristicUuid))
+                    {
+                        return BitConverter.ToInt32(data, 0).ToString();
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        return "Unknown format: " + Encoding.UTF8.GetString(data);
+                    }
+                    catch (ArgumentException)
+                    {
+                        return "Unknown format";
+                    }
+                }
+            }
+            else
+            {
+                return "Empty data received";
+            }
+            return "Unknown format";
+        }
+
+        private static ushort ParseHeartRateValue(byte[] data)
+        {
+            // Heart Rate profile defined flag values
+            const byte heartRateValueFormat = 0x01;
+
+            byte flags = data[0];
+            bool isHeartRateValueSizeLong = ((flags & heartRateValueFormat) != 0);
+
+            if (isHeartRateValueSizeLong)
+            {
+                return BitConverter.ToUInt16(data, 1);
+            }
+            else
+            {
+                return data[1];
+            }
+        }
+
+
+
+        
     }
 }

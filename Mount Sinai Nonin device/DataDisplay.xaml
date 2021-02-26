@@ -23,21 +23,24 @@
         <Button x:Name="ConnectButton" Content="Connect" Click="{x:Bind ConnectButton_Click}" Margin="0,10,0,0"/>
         <ComboBox Grid.Row="1" Grid.Column="2" x:Name="ServiceList" Margin="0,10,0,0" PlaceholderText="Choose a service" Visibility="Collapsed"
                       SelectionChanged="{x:Bind ServiceList_SelectionChanged}"/>
-        <ComboBox Grid.Row="1" Grid.Column="2" x:Name="CharacteristicList" Margin="0,10,0,0" PlaceholderText="Choose a characteristic" Visibility="Collapsed"/>
+        <ComboBox Grid.Row="1" Grid.Column="2" x:Name="CharacteristicList" Margin="0,10,0,0" PlaceholderText="Choose a characteristic" Visibility="Collapsed"
+                  SelectionChanged="{x:Bind CharacteristicList_SelectionChanged}"/>
         
         <TextBlock Grid.Column="1" x:Name="SelectedDeviceRun" Text="Device Name"/>
         <TextBlock Grid.Row="1" Grid.Column="0" Text="Hart Rate" FontSize="30" TextWrapping="Wrap"/>
-        <TextBlock Grid.Row="1" Grid.Column="1" Text="68" FontSize="80"/>
-
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <TextBlock x:Name="CharacteristicLatestValue"  FontSize="80"/>
+            <TextBlock Margin="0,10,0,0" TextWrapping="Wrap"/>
+        </StackPanel>
         <TextBlock Grid.Row="2" Grid.Column="0" Text="SPO2" FontSize="30" TextWrapping="Wrap"/>
         <TextBlock Grid.Row="2" Grid.Column="1" Text="98" FontSize="80" />
 
         <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal">
-            <Button x:Name="CharacteristicReadButton" Content="Read Value" 
+            <Button x:Name="CharacteristicReadButton" Content="Read Value" Click="{x:Bind CharacteristicReadButton_Click}"
                         Visibility="Collapsed" Margin="0,10,10,0"/>
-            <Button x:Name="ValueChangedSubscribeToggle" Content="Subscribe to value changes" 
+            <Button x:Name="ValueChangedSubscribeToggle" Content="Subscribe to value changes" Click="{x:Bind ValueChangedSubscribeToggle_Click}"
                         Visibility="Collapsed" Margin="0,10,10,0"/>
         </StackPanel>
-
+       
     </Grid>
 </Page>

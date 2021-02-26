@@ -23,22 +23,25 @@
         <Button x:ConnectionId='3' x:Name="ConnectButton" Content="Connect"                                      Margin="0,10,0,0"/>
         <ComboBox x:ConnectionId='4' Grid.Row="1" Grid.Column="2" x:Name="ServiceList" Margin="0,10,0,0" PlaceholderText="Choose a service" Visibility="Collapsed"
                                                                               />
-        <ComboBox x:ConnectionId='5' Grid.Row="1" Grid.Column="2" x:Name="CharacteristicList" Margin="0,10,0,0" PlaceholderText="Choose a characteristic" Visibility="Collapsed"/>
+        <ComboBox x:ConnectionId='5' Grid.Row="1" Grid.Column="2" x:Name="CharacteristicList" Margin="0,10,0,0" PlaceholderText="Choose a characteristic" Visibility="Collapsed"
+                                                                                 />
         
         <TextBlock x:ConnectionId='6' Grid.Column="1" x:Name="SelectedDeviceRun" Text="Device Name"/>
         <TextBlock Grid.Row="1" Grid.Column="0" Text="Hart Rate" FontSize="30" TextWrapping="Wrap"/>
-        <TextBlock Grid.Row="1" Grid.Column="1" Text="68" FontSize="80"/>
-
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <TextBlock x:ConnectionId='9' x:Name="CharacteristicLatestValue"  FontSize="80"/>
+            <TextBlock Margin="0,10,0,0" TextWrapping="Wrap"/>
+        </StackPanel>
         <TextBlock Grid.Row="2" Grid.Column="0" Text="SPO2" FontSize="30" TextWrapping="Wrap"/>
         <TextBlock Grid.Row="2" Grid.Column="1" Text="98" FontSize="80" />
 
         <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal">
-            <Button x:ConnectionId='7' x:Name="CharacteristicReadButton" Content="Read Value" 
+            <Button x:ConnectionId='7' x:Name="CharacteristicReadButton" Content="Read Value"                                                
                         Visibility="Collapsed" Margin="0,10,10,0"/>
-            <Button x:ConnectionId='8' x:Name="ValueChangedSubscribeToggle" Content="Subscribe to value changes" 
+            <Button x:ConnectionId='8' x:Name="ValueChangedSubscribeToggle" Content="Subscribe to value changes"                                                   
                         Visibility="Collapsed" Margin="0,10,10,0"/>
         </StackPanel>
-
+       
     </Grid>
 </Page>
 
