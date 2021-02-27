@@ -41,6 +41,10 @@ namespace Mount_Sinai_Nonin_device
         private GattCharacteristic registeredCharacteristic;
         private GattPresentationFormat presentationFormat;
 
+        //heartRete testing 
+        private GattCharacteristic HartRateCharacteristic;
+        GattCharacteristic HRCTag;
+
         public DataDisplay()
         {
             this.InitializeComponent();
@@ -121,8 +125,6 @@ namespace Mount_Sinai_Nonin_device
                 // If the services supported by the device are expected to change during BT usage, subscribe to the GattServicesChanged event.
                 GattDeviceServicesResult result = await bluetoothLeDevice.GetGattServicesAsync(BluetoothCacheMode.Uncached);
                 
-                
-
                 if (result.Status == GattCommunicationStatus.Success)
                 {
                     var services = result.Services;
@@ -133,6 +135,13 @@ namespace Mount_Sinai_Nonin_device
                     {
                         //I only need some service here not all the service 
                         ServiceList.Items.Add(new ComboBoxItem { Content = DisplayHelpers.GetServiceName(service), Tag = service });
+
+                        if (DisplayHelpers.GetServiceName(service).Equals("HeartRate"))
+                        {
+                            getHeartRateServiceCharacter(service);
+                            //0000180D-0000-1000-8000-00805F9B34FB
+                        }
+
                     }
                     
                     ConnectButton.Visibility = Visibility.Collapsed;
@@ -146,16 +155,163 @@ namespace Mount_Sinai_Nonin_device
             ConnectButton.IsEnabled = true;
         }
 
+        #region Heart Rate data retrive 
+
+        //as soon as it get connect go straight to get the heart rate data 
+        private async void getHeartRateServiceCharacter(GattDeviceService HRTag)
+        {
+            var HRservice = (GattDeviceService)HRTag;
+            //storage all the Heart Rate characteristic 
+            IReadOnlyList<GattCharacteristic> HRcharacteristics = null;
+            //get all the Heart Rate characteristic
+            var HRresult = await HRservice.GetCharacteristicsAsync(BluetoothCacheMode.Uncached);
+
+            //get the service and characteristic here
+            try
+            {
+                var accessStatus = await HRservice.RequestAccessAsync();
+                if (accessStatus == DeviceAccessStatus.Allowed)
+                {
+                   
+                    var result = await HRservice.GetCharacteristicsAsync(BluetoothCacheMode.Uncached);
+
+                    if (result.Status == GattCommunicationStatus.Success)
+                    {
+                        HRcharacteristics = HRresult.Characteristics;
+                    }
+                    else
+                    {
+                        HRcharacteristics = new List<GattCharacteristic>();
+                    }
+                }
+                else
+                {
+                    HRcharacteristics = new List<GattCharacteristic>();
+                }
+            }
+            catch (Exception ex)
+            {
+                HRcharacteristics = new List<GattCharacteristic>();
+            }
+
+            //get the one characteristic that i need
+            foreach (GattCharacteristic c in HRcharacteristics)
+            {
+                if (DisplayHelpers.GetCharacteristicName(c).Equals("HeartRateMeasurement"))
+                {
+                    HRCTag = c;
+                    checkstatus.Text = "it reach here";
+                };
+            }
+            getHeartRateValueDisplay();
+        }
+
+        private async void getHeartRateValueDisplay()
+        {
+            GattCommunicationStatus status = GattCommunicationStatus.Unreachable;
+            var cccdValue = GattClientCharacteristicConfigurationDescriptorValue.Notify;
+            
+            try
+            {
+                status = await HRCTag.WriteClientCharacteristicConfigurationDescriptorAsync(cccdValue);
+
+                if (status == GattCommunicationStatus.Success)
+                {
+                    HeartRateValueChangedHandler();
+                }
+                else
+                {
+                   
+                }
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+               
+            }
+        }
+
+        private void HeartRateValueChangedHandler()
+        {
+            ValueChangedSubscribeToggle.Content = "Unsubscribe from value changes";
+            if (!subscribedForNotifications)
+            {
+                HartRateCharacteristic = HRCTag;
+                HRCTag.ValueChanged += HRCharacteristic_ValueChanged;
+            }
+        }
+
+
+        private async void HRCharacteristic_ValueChanged(GattCharacteristic sender, GattValueChangedEventArgs args)
+        {
+          
+            var HeartRatevalue = HeartRateFormatValue(args.CharacteristicValue, presentationFormat);
+            var HRmessage = HeartRatevalue;
+           
+
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                () => HeartReteDataDisply.Text = HeartRatevalue);
+        }
+
+        private string HeartRateFormatValue(IBuffer buffer, GattPresentationFormat format)
+        {
+           
+            byte[] data;
+            CryptographicBuffer.CopyToByteArray(buffer, out data);
+           
+            if (data != null)
+            {
+
+                if (HRCTag.Uuid.Equals(GattCharacteristicUuids.HeartRateMeasurement))
+                {
+                    try
+                    {
+
+                        return ParseHeartRateValue(data).ToString();
+                    }
+                    catch (ArgumentException)
+                    {
+                        return "Heart Rate: (unable to parse)";
+                    }
+                }
+                
+            }
+            else
+            {
+                return "Empty data received";
+            }
+            return "Unknown format no data recived";
+        }
+
+        private static ushort ParseHeartRateValue(byte[] data)
+        {
+            // Heart Rate profile defined flag values
+            const byte heartRateValueFormat = 0x01;
+
+            byte flags = data[0];
+            bool isHeartRateValueSizeLong = ((flags & heartRateValueFormat) != 0);
+
+            if (isHeartRateValueSizeLong)
+            {
+                return BitConverter.ToUInt16(data, 1);
+            }
+            else
+            {
+                return data[1];
+            }
+        }
+
+
+
+        #endregion 
+
+
         //choosed servie and find the characteristic in the service  
         private async void ServiceList_SelectionChanged()
         {
             var service = (GattDeviceService)((ComboBoxItem)ServiceList.SelectedItem)?.Tag;
-            checkstatus.Text = "is connected" + service.DeviceId;
             
-            //took off what it is in the characteristic list
             CharacteristicList.Items.Clear();
-            RemoveValueChangedHandler();
-
+            //RemoveValueChangedHandler();
 
             IReadOnlyList<GattCharacteristic> characteristics = null;
             try
@@ -167,9 +323,11 @@ namespace Mount_Sinai_Nonin_device
                     // BT_Code: Get all the child characteristics of a service. Use the cache mode to specify uncached characterstics only 
                     // and the new Async functions to get the characteristics of unpaired devices as well. 
                     var result = await service.GetCharacteristicsAsync(BluetoothCacheMode.Uncached);
+                   
+
                     if (result.Status == GattCommunicationStatus.Success)
                     {
-                        characteristics = result.Characteristics;
+                        characteristics = result.Characteristics;  
                     }
                     else
                     {
@@ -204,6 +362,9 @@ namespace Mount_Sinai_Nonin_device
             CharacteristicList.Visibility = Visibility.Visible;
         }
 
+
+
+
         //remove the characteristic that is already excited so that can be able to add new in
         private void RemoveValueChangedHandler()
         {
@@ -219,6 +380,8 @@ namespace Mount_Sinai_Nonin_device
         private async void CharacteristicList_SelectionChanged()
         {
             selectedCharacteristic = (GattCharacteristic)((ComboBoxItem)CharacteristicList.SelectedItem)?.Tag;
+            
+            
             if (selectedCharacteristic == null)
             {
                 EnableCharacteristicPanels(GattCharacteristicProperties.None);
@@ -229,6 +392,7 @@ namespace Mount_Sinai_Nonin_device
             // Get all the child descriptors of a characteristics. Use the cache mode to specify uncached descriptors only 
             // and the new Async functions to get the descriptors of unpaired devices as well. 
             var result = await selectedCharacteristic.GetDescriptorsAsync(BluetoothCacheMode.Uncached);
+           
             if (result.Status != GattCommunicationStatus.Success)
             {
                 
@@ -244,7 +408,7 @@ namespace Mount_Sinai_Nonin_device
                 {
                     // Get the presentation format since there's only one way of presenting it
                     presentationFormat = selectedCharacteristic.PresentationFormats[0];
-                    checkstatus.Text = "presentation Format " + presentationFormat;
+                  
                 }
                 else
                 {
@@ -252,7 +416,6 @@ namespace Mount_Sinai_Nonin_device
                     // In this case, we'll just encode the whole thing to a string to make it easy to print out.
                 }
             }
-
             // Enable/disable operations based on the GattCharacteristicProperties.
             EnableCharacteristicPanels(selectedCharacteristic.CharacteristicProperties);
         }
@@ -284,6 +447,7 @@ namespace Mount_Sinai_Nonin_device
             {
                 string formattedResult = FormatValueByPresentation(result.Value, presentationFormat);
                 //rootPage.NotifyUser($"Read result: {formattedResult}", NotifyType.StatusMessage);
+                
             }
             else
             {
@@ -299,12 +463,12 @@ namespace Mount_Sinai_Nonin_device
                 // initialize status
                 GattCommunicationStatus status = GattCommunicationStatus.Unreachable;
                 var cccdValue = GattClientCharacteristicConfigurationDescriptorValue.None;
-                if (selectedCharacteristic.CharacteristicProperties.HasFlag(GattCharacteristicProperties.Indicate))
+                if (HRCTag.CharacteristicProperties.HasFlag(GattCharacteristicProperties.Indicate))
                 {
                     cccdValue = GattClientCharacteristicConfigurationDescriptorValue.Indicate;
                 }
 
-                else if (selectedCharacteristic.CharacteristicProperties.HasFlag(GattCharacteristicProperties.Notify))
+                else if (HRCTag.CharacteristicProperties.HasFlag(GattCharacteristicProperties.Notify))
                 {
                     cccdValue = GattClientCharacteristicConfigurationDescriptorValue.Notify;
                 }
@@ -313,7 +477,7 @@ namespace Mount_Sinai_Nonin_device
                 {
                     // BT_Code: Must write the CCCD in order for server to send indications.
                     // We receive them in the ValueChanged event handler.
-                    status = await selectedCharacteristic.WriteClientCharacteristicConfigurationDescriptorAsync(cccdValue);
+                    status = await HRCTag.WriteClientCharacteristicConfigurationDescriptorAsync(cccdValue);
 
                     if (status == GattCommunicationStatus.Success)
                     {
@@ -360,6 +524,8 @@ namespace Mount_Sinai_Nonin_device
             }
         }
 
+        
+
         private void AddValueChangedHandler()
         {
             ValueChangedSubscribeToggle.Content = "Unsubscribe from value changes";
@@ -368,6 +534,7 @@ namespace Mount_Sinai_Nonin_device
                 registeredCharacteristic = selectedCharacteristic;
                 registeredCharacteristic.ValueChanged += Characteristic_ValueChanged;
                 subscribedForNotifications = true;
+
             }
         }
 
@@ -377,9 +544,11 @@ namespace Mount_Sinai_Nonin_device
             // Display the new value with a timestamp.
             var newValue = FormatValueByPresentation(args.CharacteristicValue, presentationFormat);
             var message =  newValue;
+
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                 () => CharacteristicLatestValue.Text = message);
         }
+
 
 
         private string FormatValueByPresentation(IBuffer buffer, GattPresentationFormat format)
@@ -405,6 +574,17 @@ namespace Mount_Sinai_Nonin_device
                         return "(error: Invalid UTF-8 string)";
                     }
                 }
+                else if (format.FormatType == GattPresentationFormatTypes.UInt16)
+                {
+                    try
+                    {
+                        return BitConverter.ToInt16(data,0).ToString();
+                    }
+                    catch (ArgumentException)
+                    {
+                        return "(error: Invalid UTF-16 string)";
+                    }
+                }
                 else
                 {
                     // Add support for other format types as needed.
@@ -418,6 +598,7 @@ namespace Mount_Sinai_Nonin_device
                 {
                     try
                     {
+
                         return ParseHeartRateValue(data).ToString();
                     }
                     catch (ArgumentException)
@@ -460,7 +641,7 @@ namespace Mount_Sinai_Nonin_device
                     }
                     catch (ArgumentException)
                     {
-                        return "Unknown format";
+                        return "Unknown format uuid" + registeredCharacteristic.Uuid ;
                     }
                 }
             }
@@ -468,26 +649,10 @@ namespace Mount_Sinai_Nonin_device
             {
                 return "Empty data received";
             }
-            return "Unknown format";
+            return "Unknown format no data recived";
         }
 
-        private static ushort ParseHeartRateValue(byte[] data)
-        {
-            // Heart Rate profile defined flag values
-            const byte heartRateValueFormat = 0x01;
-
-            byte flags = data[0];
-            bool isHeartRateValueSizeLong = ((flags & heartRateValueFormat) != 0);
-
-            if (isHeartRateValueSizeLong)
-            {
-                return BitConverter.ToUInt16(data, 1);
-            }
-            else
-            {
-                return data[1];
-            }
-        }
+       
 
 
 
