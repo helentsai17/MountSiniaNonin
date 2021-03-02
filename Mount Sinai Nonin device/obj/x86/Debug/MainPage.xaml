@@ -7,18 +7,42 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <StackPanel MinWidth="100">
-            <Button x:ConnectionId='3' Content="Find Device" FontSize="30"                        />
-            <Button x:ConnectionId='4' Content="Data" FontSize="30"                     />
-            <Button x:ConnectionId='5' Content="Person" FontSize="30"                      />
-        </StackPanel>
-        <Frame x:ConnectionId='2' Grid.Column="1" x:Name="InnerFrame"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
 
+        <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+            <Button x:ConnectionId='7' Padding="10" Margin="4,0,0,0" Background="blue"                   VerticalAlignment="Top">
+                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;"/>
+            </Button>
+        </Border>
+
+        <SplitView x:ConnectionId='2' Grid.Row="1" IsPaneOpen="True" x:Name="SView" DisplayMode="Inline" CompactPaneLength="28">
+            <SplitView.Pane>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="28"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <SymbolIcon Margin="4" Grid.Row ="2" Symbol="Contact2" HorizontalAlignment="Left"/>
+                    <SymbolIcon Margin="4" Grid.Row ="1" Symbol="RepeatAll" HorizontalAlignment="Left"/>
+                    <SymbolIcon Margin="4" Grid.Row ="0" Symbol="Globe" HorizontalAlignment="Left" />
+                    <Button x:ConnectionId='3' Background="{x:Null}" Grid.Row="0" Grid.Column="1" Margin="4" Content="Find Device" FontSize="30"                         />
+                    <Button x:ConnectionId='4' Background="{x:Null}" Grid.Row="1" Grid.Column="1" Margin="4" Content="Data" FontSize="30"                     />
+                    <Button x:ConnectionId='5' Background="{x:Null}" Grid.Row="2" Grid.Column="1" Margin="4" Content="Person" FontSize="30"                      />
+                </Grid>
+            </SplitView.Pane>
+            <Frame x:ConnectionId='6'  x:Name="InnerFrame"/>
+        </SplitView>
+        
     </Grid>
 </Page>
 

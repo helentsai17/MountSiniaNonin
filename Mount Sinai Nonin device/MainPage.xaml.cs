@@ -6,6 +6,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -31,6 +32,27 @@ namespace Mount_Sinai_Nonin_device
             this.InitializeComponent();
             Current = this;
             SystemNavigationManager.GetForCurrentView().BackRequested += MainPage_BackRequested;
+            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(320, 320));
+            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().VisibleBoundsChanged += MainPage_VisibleBoundsChanged;
+        }
+
+        private void MainPage_VisibleBoundsChanged(ApplicationView sender, object args)
+        {
+            var Width = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().VisibleBounds.Width;
+            if(Width >= 720)
+            {
+                SView.DisplayMode = SplitViewDisplayMode.CompactInline;
+                SView.IsPaneOpen = true;
+            }else if( Width >= 360)
+            {
+                SView.DisplayMode = SplitViewDisplayMode.CompactOverlay;
+                SView.IsPaneOpen = false;
+            }
+            else
+            {
+                SView.DisplayMode = SplitViewDisplayMode.Overlay;
+                SView.IsPaneOpen = false;
+            }
         }
 
         private void MainPage_BackRequested(object sender, BackRequestedEventArgs e)
@@ -68,6 +90,11 @@ namespace Mount_Sinai_Nonin_device
         private void Goto_UserInfo(object sender, RoutedEventArgs e)
         {
             InnerFrame.Navigate(typeof(UserInfo));
+        }
+
+        private void Open_Menu(object sender, RoutedEventArgs e)
+        {
+            SView.IsPaneOpen = !SView.IsPaneOpen;
         }
     }
 }

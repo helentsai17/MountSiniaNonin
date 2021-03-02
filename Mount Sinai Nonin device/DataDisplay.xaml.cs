@@ -41,9 +41,17 @@ namespace Mount_Sinai_Nonin_device
         private GattCharacteristic registeredCharacteristic;
         private GattPresentationFormat presentationFormat;
 
-        //heartRete testing 
+        //heartRete value
         private GattCharacteristic HartRateCharacteristic;
         GattCharacteristic HRCTag;
+
+        //battery level 
+        private GattCharacteristic BatteryCharacteristic;
+        GattCharacteristic BLCTag;
+
+        //SpO2 value 
+        private GattCharacteristic spO2Characteristic;
+        GattCharacteristic SPO2CTag;
 
         public DataDisplay()
         {
@@ -88,6 +96,8 @@ namespace Mount_Sinai_Nonin_device
             bluetoothLeDevice = null;
             return true;
         }
+
+
 
 
         private async void ConnectButton_Click()
@@ -142,6 +152,18 @@ namespace Mount_Sinai_Nonin_device
                             //0000180D-0000-1000-8000-00805F9B34FB
                         }
 
+                        if (DisplayHelpers.GetServiceName(service).Equals("Battery"))
+                        {
+                            getBatteryLevelServiceCharacter(service);
+                            //0000180F-0000-1000-8000-00805F9B34FB
+                        }
+
+                        if (DisplayHelpers.GetServiceName(service).Equals("OximeterService"))
+                        {
+                            getSPO2ServiceCharacter(service);
+                            //00001822-0000-1000-8000-00805F9B34FB
+                        }
+
                     }
                     
                     ConnectButton.Visibility = Visibility.Collapsed;
@@ -155,12 +177,227 @@ namespace Mount_Sinai_Nonin_device
             ConnectButton.IsEnabled = true;
         }
 
+        #region SpO2 value get
+        //find the right characteristice and storage in spO2CTag
+        private async void getSPO2ServiceCharacter(GattDeviceService SPO2serviceTag)
+        {
+            var service = (GattDeviceService)SPO2serviceTag;
+            // a list to stortage all the characteristic of spO2 service 
+            IReadOnlyList<GattCharacteristic> spO2Characterist = null;
+            //get all the spO2 characteristic 
+            var spO2result = service.GetCharacteristicsAsync(BluetoothCacheMode.Uncached);
+
+            try
+            {
+                // Ensure we have access to the device.
+                var accessStatus = await service.RequestAccessAsync();
+                if (accessStatus == DeviceAccessStatus.Allowed)
+                {
+                    var result = await service.GetCharacteristicsAsync(BluetoothCacheMode.Uncached);
+
+                    if (result.Status == GattCommunicationStatus.Success)
+                    {
+                        spO2Characterist = result.Characteristics;
+                    }
+                    else
+                    {
+                        spO2Characterist = new List<GattCharacteristic>();
+                    }
+                }
+                else
+                {
+                    spO2Characterist = new List<GattCharacteristic>();
+                }
+            }
+            catch (Exception ex)
+            {
+                spO2Characterist = new List<GattCharacteristic>();
+            }
+
+            foreach (GattCharacteristic c in spO2Characterist)
+            {
+                if (DisplayHelpers.GetCharacteristicName(c).Equals("PulseOximetryContinuousMeasurement"))
+                {
+                    SPO2CTag = c;
+                };
+            }
+            getSpO2ValueDisplay();
+        }
+
+        private async void getSpO2ValueDisplay()
+        {
+            GattCommunicationStatus status = GattCommunicationStatus.Unreachable;
+            var cccdValue = GattClientCharacteristicConfigurationDescriptorValue.Notify;
+
+            status = await SPO2CTag.WriteClientCharacteristicConfigurationDescriptorAsync(cccdValue);
+
+            if (status == GattCommunicationStatus.Success)
+            {
+               SPO2ValueChangedHandler();
+            }
+
+        }
+
+        private void SPO2ValueChangedHandler()
+        {
+            spO2Characteristic = HRCTag;
+            spO2Characteristic.ValueChanged += spO2Characteristic_ValueChanged;
+        }
+
+        private async void spO2Characteristic_ValueChanged(GattCharacteristic sender, GattValueChangedEventArgs args)
+        {
+            var SpO2value = SPO2FormatValue(args.CharacteristicValue, presentationFormat);
+            var SpO2message = SpO2value;
+
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => spO2Display.Text = SpO2message);
+        }
+
+        private string SPO2FormatValue(IBuffer buffer, GattPresentationFormat format)
+        {
+
+            byte[] data;
+            CryptographicBuffer.CopyToByteArray(buffer, out data);
+
+            if (data != null)
+            {
+
+                if (SPO2CTag.Uuid.Equals(GattCharacteristicUuids.GattServiceChanged))
+                {
+                    try
+                    {
+                        return data.ToString();
+                    }
+                    catch (ArgumentException)
+                    {
+                        return "Heart Rate: (unable to parse)";
+                    }
+                }
+
+            }
+            else
+            {
+                return "Empty data received";
+            }
+            return data.ToString();
+        }
+
+
+
+        #endregion
+
+        #region battery data retrive
+        private async void getBatteryLevelServiceCharacter(GattDeviceService BLservice)
+        {
+            var BLVservice = (GattDeviceService)BLservice;
+            IReadOnlyList<GattCharacteristic> BLVcharacteristics = null;
+            var BLVresult = await BLservice.GetCharacteristicsAsync(BluetoothCacheMode.Uncached);
+            try
+            {
+                var accessStatus = await BLVservice.RequestAccessAsync();
+                if (accessStatus == DeviceAccessStatus.Allowed)
+                {
+
+                    var result = await BLVservice.GetCharacteristicsAsync(BluetoothCacheMode.Uncached);
+
+                    if (result.Status == GattCommunicationStatus.Success)
+                    {
+                        BLVcharacteristics = BLVresult.Characteristics;
+                    }
+                    else
+                    {
+                        BLVcharacteristics = new List<GattCharacteristic>();
+                    }
+                }
+                else
+                {
+                    BLVcharacteristics = new List<GattCharacteristic>();
+                }
+            }
+            catch (Exception ex)
+            {
+                BLVcharacteristics = new List<GattCharacteristic>();
+            }
+
+            //assight Battery Level Characteristic to BLCTag
+            foreach (GattCharacteristic c in BLVcharacteristics)
+            {
+                if (DisplayHelpers.GetCharacteristicName(c).Equals("BatteryLevel"))
+                {
+                    BLCTag = c;
+                };
+            }
+            getBatteryLevelValueDisplay();
+        }
+
+        private async void getBatteryLevelValueDisplay()
+        {
+            //only get value at once, need subscribe as well
+            GattReadResult result = await BLCTag.ReadValueAsync(BluetoothCacheMode.Uncached);
+            if (result.Status == GattCommunicationStatus.Success)
+            {
+                string formattedResult = BatteryLevelValueFormatValue(result.Value, presentationFormat);
+                var message = formattedResult;
+
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => BatteryLevelData.Text = message);
+            }
+
+            //TODO: also need to subscribe
+        }
+
+        private void BatteryLevelChangedHandler()
+        {
+            BatteryCharacteristic = BLCTag;
+            BLCTag.ValueChanged += BLVCharacteristic_ValueChangedAsync;
+        }
+
+        private async void BLVCharacteristic_ValueChangedAsync(GattCharacteristic sender, GattValueChangedEventArgs args)
+        {
+            
+            var BatteryLevelValue = BatteryLevelValueFormatValue(args.CharacteristicValue, presentationFormat);
+            var BLVmessage = BatteryLevelValue;
+            
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => BatteryLevelData.Text = BLVmessage);
+        }
+
+        private string BatteryLevelValueFormatValue(IBuffer buffer, GattPresentationFormat format)
+        {
+
+            byte[] data;
+            CryptographicBuffer.CopyToByteArray(buffer, out data);
+
+            if (data != null)
+            {
+               
+                if (BLCTag.Uuid.Equals(GattCharacteristicUuids.BatteryLevel))
+                {
+                    try
+                    {
+                        return "Battery Level: " + data[0].ToString() + "%";
+                    }
+                    catch (ArgumentException)
+                    {
+                        return "Battery Level: (unable to parse)";
+                    }
+                }
+
+            }
+            else
+            {
+                return "Empty data received";
+            }
+            return "Unknown format no data recived";
+        }
+
+
+        #endregion
+
+
         #region Heart Rate data retrive 
 
-        //as soon as it get connect go straight to get the heart rate data 
-        private async void getHeartRateServiceCharacter(GattDeviceService HRTag)
+        //as soon as it get connect go straight to get the heart rate service and characteristic and assight it to  
+        private async void getHeartRateServiceCharacter(GattDeviceService HRServiceTag)
         {
-            var HRservice = (GattDeviceService)HRTag;
+            var HRservice = (GattDeviceService)HRServiceTag;
             //storage all the Heart Rate characteristic 
             IReadOnlyList<GattCharacteristic> HRcharacteristics = null;
             //get all the Heart Rate characteristic
@@ -200,7 +437,6 @@ namespace Mount_Sinai_Nonin_device
                 if (DisplayHelpers.GetCharacteristicName(c).Equals("HeartRateMeasurement"))
                 {
                     HRCTag = c;
-                    checkstatus.Text = "it reach here";
                 };
             }
             getHeartRateValueDisplay();
@@ -219,10 +455,7 @@ namespace Mount_Sinai_Nonin_device
                 {
                     HeartRateValueChangedHandler();
                 }
-                else
-                {
-                   
-                }
+               
             }
             catch (UnauthorizedAccessException ex)
             {
@@ -232,12 +465,8 @@ namespace Mount_Sinai_Nonin_device
 
         private void HeartRateValueChangedHandler()
         {
-            ValueChangedSubscribeToggle.Content = "Unsubscribe from value changes";
-            if (!subscribedForNotifications)
-            {
-                HartRateCharacteristic = HRCTag;
-                HRCTag.ValueChanged += HRCharacteristic_ValueChanged;
-            }
+             HartRateCharacteristic = HRCTag;
+             HRCTag.ValueChanged += HRCharacteristic_ValueChanged;
         }
 
 
@@ -247,9 +476,7 @@ namespace Mount_Sinai_Nonin_device
             var HeartRatevalue = HeartRateFormatValue(args.CharacteristicValue, presentationFormat);
             var HRmessage = HeartRatevalue;
            
-
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                () => HeartReteDataDisply.Text = HeartRatevalue);
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => HeartReteDataDisply.Text = HeartRatevalue);
         }
 
         private string HeartRateFormatValue(IBuffer buffer, GattPresentationFormat format)
@@ -309,9 +536,8 @@ namespace Mount_Sinai_Nonin_device
         private async void ServiceList_SelectionChanged()
         {
             var service = (GattDeviceService)((ComboBoxItem)ServiceList.SelectedItem)?.Tag;
-            
             CharacteristicList.Items.Clear();
-            //RemoveValueChangedHandler();
+            RemoveValueChangedHandler();
 
             IReadOnlyList<GattCharacteristic> characteristics = null;
             try
@@ -463,12 +689,12 @@ namespace Mount_Sinai_Nonin_device
                 // initialize status
                 GattCommunicationStatus status = GattCommunicationStatus.Unreachable;
                 var cccdValue = GattClientCharacteristicConfigurationDescriptorValue.None;
-                if (HRCTag.CharacteristicProperties.HasFlag(GattCharacteristicProperties.Indicate))
+                if (selectedCharacteristic.CharacteristicProperties.HasFlag(GattCharacteristicProperties.Indicate))
                 {
                     cccdValue = GattClientCharacteristicConfigurationDescriptorValue.Indicate;
                 }
 
-                else if (HRCTag.CharacteristicProperties.HasFlag(GattCharacteristicProperties.Notify))
+                else if (selectedCharacteristic.CharacteristicProperties.HasFlag(GattCharacteristicProperties.Notify))
                 {
                     cccdValue = GattClientCharacteristicConfigurationDescriptorValue.Notify;
                 }
@@ -477,7 +703,7 @@ namespace Mount_Sinai_Nonin_device
                 {
                     // BT_Code: Must write the CCCD in order for server to send indications.
                     // We receive them in the ValueChanged event handler.
-                    status = await HRCTag.WriteClientCharacteristicConfigurationDescriptorAsync(cccdValue);
+                    status = await selectedCharacteristic.WriteClientCharacteristicConfigurationDescriptorAsync(cccdValue);
 
                     if (status == GattCommunicationStatus.Success)
                     {
@@ -543,6 +769,7 @@ namespace Mount_Sinai_Nonin_device
             // BT_Code: An Indicate or Notify reported that the value has changed.
             // Display the new value with a timestamp.
             var newValue = FormatValueByPresentation(args.CharacteristicValue, presentationFormat);
+
             var message =  newValue;
 
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,

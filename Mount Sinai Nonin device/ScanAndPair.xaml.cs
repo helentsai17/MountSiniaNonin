@@ -9,6 +9,7 @@ using Windows.Devices.Enumeration;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -38,7 +39,9 @@ namespace Mount_Sinai_Nonin_device
         public ScanAndPair()
         {
             this.InitializeComponent();
+           
         }
+
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {

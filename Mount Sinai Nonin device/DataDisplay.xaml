@@ -10,36 +10,49 @@
 
     <Grid Margin="20">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
             <RowDefinition Height="3*"/>
             <RowDefinition Height="3*"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Column="2" x:Name="checkstatus" TextWrapping="Wrap"/>
-        <Button x:Name="ConnectButton" Content="Connect" Click="{x:Bind ConnectButton_Click}" Margin="0,10,0,0"/>
-        <ComboBox Grid.Row="1" Grid.Column="2" x:Name="ServiceList" Margin="0,10,0,0" PlaceholderText="Choose a service" Visibility="Collapsed"
-                      SelectionChanged="{x:Bind ServiceList_SelectionChanged}"/>
-        <ComboBox Grid.Row="1" Grid.Column="2" x:Name="CharacteristicList" Margin="0,10,0,0" PlaceholderText="Choose a characteristic" Visibility="Collapsed"
-                  SelectionChanged="{x:Bind CharacteristicList_SelectionChanged}"/>
-        
-        <TextBlock Grid.Column="1" x:Name="SelectedDeviceRun" Text="Device Name"/>
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="Hart Rate" FontSize="30" TextWrapping="Wrap"/>
-        <StackPanel Grid.Row="1" Grid.Column="1">
-            <TextBlock x:Name="HeartReteDataDisply" FontSize="80"  TextWrapping="Wrap"/>
-            <TextBlock x:Name="CharacteristicLatestValue" Margin="0,10,0,0" TextWrapping="Wrap"/>
+       
+        <StackPanel>
+            <TextBlock Grid.Column="1" x:Name="SelectedDeviceRun" Text="Device Name"/>
+            <Button x:Name="ConnectButton" Content="Connect" Click="{x:Bind ConnectButton_Click}" Margin="0,10,0,0"/>
         </StackPanel>
-        <TextBlock Grid.Row="2" Grid.Column="0" Text="SPO2" FontSize="30" TextWrapping="Wrap"/>
-        <TextBlock Grid.Row="2" Grid.Column="1" Text="98" FontSize="80" />
+        <StackPanel  Grid.Row="0" Grid.Column="1">
+            <ComboBox  x:Name="ServiceList" Margin="0,10,0,0" PlaceholderText="Choose a service" Visibility="Collapsed"
+                      SelectionChanged="{x:Bind ServiceList_SelectionChanged}"/>
+            <ComboBox  x:Name="CharacteristicList" Margin="0,10,0,0" PlaceholderText="Choose a characteristic" Visibility="Collapsed"
+                  SelectionChanged="{x:Bind CharacteristicList_SelectionChanged}"/>
+        </StackPanel>
+        <StackPanel Grid.Column="2">
+            <TextBlock x:Name="BatteryLevelData" TextWrapping="Wrap" HorizontalAlignment="Right"/>
+            <TextBlock x:Name="checkstatus" TextWrapping="Wrap"/>
+        </StackPanel>
+        
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Hart Rate" FontSize="30" TextWrapping="Wrap" />
 
+        <StackPanel Grid.Row="1" Grid.Column="1" >
+            <TextBlock x:Name="HeartReteDataDisply" FontSize="80"  TextWrapping="Wrap" />
+        </StackPanel>
+        
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="SPO2" FontSize="30" TextWrapping="Wrap" />
+
+        <StackPanel  Grid.Row="2" Grid.Column="1" >
+            <TextBlock  x:Name="spO2Display" FontSize="30" TextWrapping="Wrap"/>
+        </StackPanel>
+      
         <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal">
             <Button x:Name="CharacteristicReadButton" Content="Read Value" Click="{x:Bind CharacteristicReadButton_Click}"
                         Visibility="Collapsed" Margin="0,10,10,0"/>
             <Button x:Name="ValueChangedSubscribeToggle" Content="Subscribe to value changes" Click="{x:Bind ValueChangedSubscribeToggle_Click}"
                         Visibility="Collapsed" Margin="0,10,10,0"/>
+            <TextBlock x:Name="CharacteristicLatestValue" Margin="0,10,0,0" TextWrapping="Wrap"/>
         </StackPanel>
        
     </Grid>

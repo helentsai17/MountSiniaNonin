@@ -153,7 +153,8 @@ namespace Mount_Sinai_Nonin_device
         RunningSpeedandCadence = 0x1814,
         ScanParameters = 0x1813,
         TxPower = 0x1804,
-        SimpleKeyService = 0xFFE0
+        SimpleKeyService = 0xFFE0,
+        OximeterService = 0x1822
     }
 
     /// <summary>
