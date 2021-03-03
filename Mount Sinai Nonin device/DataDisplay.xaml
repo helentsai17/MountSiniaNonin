@@ -34,25 +34,45 @@
             <TextBlock x:Name="BatteryLevelData" TextWrapping="Wrap" HorizontalAlignment="Right"/>
             <TextBlock x:Name="checkstatus" TextWrapping="Wrap"/>
         </StackPanel>
-        
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="Heart Rate" FontSize="30" TextWrapping="Wrap" />
+
+        <Border BorderBrush="Black" BorderThickness="10"  Grid.Row="1" Grid.Column="0" Margin="2">
+            <StackPanel Margin="10">
+                <TextBlock  Text="Heart Rate" FontSize="30" TextWrapping="Wrap" />
+                <TextBlock x:Name="HeartReteDataDisply" FontSize="50"  TextWrapping="Wrap" />
+            </StackPanel>
+        </Border>
+       
 
         <StackPanel Grid.Row="1" Grid.Column="1" >
-            <TextBlock x:Name="HeartReteDataDisply" FontSize="80"  TextWrapping="Wrap" />
+            <TextBlock x:Name="PITValue" FontSize="30" HorizontalAlignment="Right"/>
         </StackPanel>
-        
-        <TextBlock Grid.Row="2" Grid.Column="0" Text="SPO2" FontSize="30" TextWrapping="Wrap" />
 
-        <StackPanel  Grid.Row="2" Grid.Column="1" >
-            <TextBlock  x:Name="spO2Display" FontSize="30" TextWrapping="Wrap"/>
-        </StackPanel>
+        <Border BorderBrush="Black" BorderThickness="10" Grid.Row="2" Grid.Column="0" Margin="2">
+            <StackPanel Margin="10">
+                <TextBlock Text="SPO2" FontSize="30" TextWrapping="Wrap" />
+                <TextBlock x:Name="spO2Display" FontSize="50" TextWrapping="Wrap"/>
+            </StackPanel>
+        </Border>
+        
+
+
+        <Border BorderBrush="Black" BorderThickness="10"  Grid.Row="2" Grid.Column="1" Margin="2" >
+            <StackPanel Margin="10">
+                <TextBlock Text="PAI" FontSize="30" TextWrapping="Wrap" />
+                <TextBlock x:Name="PAIDisplay" FontSize="50" TextWrapping="Wrap"/>
+            </StackPanel>
+        </Border>
+        
       
         <StackPanel Grid.Row="2" Grid.Column="2">
+            
             <Button x:Name="CharacteristicReadButton" Content="Read Value" Click="{x:Bind CharacteristicReadButton_Click}"
                         Visibility="Collapsed" Margin="0,10,10,0"/>
             <Button x:Name="ValueChangedSubscribeToggle" Content="Subscribe to value changes" Click="{x:Bind ValueChangedSubscribeToggle_Click}"
                         Visibility="Collapsed" Margin="0,10,10,0"/>
             <TextBlock x:Name="CharacteristicLatestValue"  TextWrapping="WrapWholeWords"/>
+
+            
         </StackPanel>
        
     </Grid>

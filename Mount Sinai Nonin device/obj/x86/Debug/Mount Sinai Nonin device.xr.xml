@@ -28,12 +28,13 @@
       <RootProperty Name="Children" />
       <RootProperty Name="Margin" />
     </RootType>
-    <RootType FullName="Windows.UI.Xaml.Controls.TextBlock">
-      <RootProperty Name="Text" />
-      <RootProperty Name="FontSize" />
-      <RootProperty Name="TextWrapping" />
+    <RootType FullName="Windows.UI.Xaml.Controls.Border">
+      <RootProperty Name="BorderBrush" />
+      <RootProperty Name="BorderThickness" />
+      <RootProperty Name="Margin" />
+      <RootProperty Name="Child" />
       <RootProperty Name="HorizontalAlignment" />
-      <RootProperty Name="Inlines" />
+      <RootProperty Name="VerticalAlignment" />
     </RootType>
     <RootType FullName="Windows.UI.Xaml.Controls.Button">
       <RootProperty Name="Content" />
@@ -46,6 +47,13 @@
       <RootProperty Name="IsEnabled" />
       <RootEvent Name="Click" />
     </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.TextBlock">
+      <RootProperty Name="TextWrapping" />
+      <RootProperty Name="Text" />
+      <RootProperty Name="FontSize" />
+      <RootProperty Name="HorizontalAlignment" />
+      <RootProperty Name="Inlines" />
+    </RootType>
     <RootType FullName="Microsoft.Xaml.DirectUI.ProxyTypes.BindExtension">
       <RootProperty Name="Mode" />
       <RootProperty Name="FallbackValue" />
@@ -57,11 +65,6 @@
       <RootEvent Name="SelectionChanged" />
     </RootType>
     <RootType FullName="Mount_Sinai_Nonin_device.DataDisplay" />
-    <RootType FullName="Windows.UI.Xaml.Controls.Border">
-      <RootProperty Name="HorizontalAlignment" />
-      <RootProperty Name="VerticalAlignment" />
-      <RootProperty Name="Child" />
-    </RootType>
     <RootType FullName="Windows.UI.Xaml.Controls.SplitView">
       <RootProperty Name="IsPaneOpen" />
       <RootProperty Name="DisplayMode" />

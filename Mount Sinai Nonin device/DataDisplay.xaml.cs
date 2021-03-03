@@ -53,6 +53,10 @@ namespace Mount_Sinai_Nonin_device
         private GattCharacteristic spO2Characteristic;
         GattCharacteristic SPO2CTag;
 
+        //Pulse Interval Timing(PIT)
+        private GattCharacteristic PITCharacteristic;
+        GattCharacteristic PITCTag;
+
         public DataDisplay()
         {
             this.InitializeComponent();
@@ -97,9 +101,6 @@ namespace Mount_Sinai_Nonin_device
             return true;
         }
 
-
-
-
         private async void ConnectButton_Click()
         {
             ConnectButton.IsEnabled = false;
@@ -118,7 +119,6 @@ namespace Mount_Sinai_Nonin_device
 
                 if (bluetoothLeDevice == null)
                 {
-                    //checkstatus.Text = "dose not find the bluetooth device" + rootPage.SelectedBleDeviceId;
                  //   rootPage.NotifyUser("Failed to connect to device.", NotifyType.ErrorMessage);
                 }
             }
@@ -129,41 +129,35 @@ namespace Mount_Sinai_Nonin_device
 
             if (bluetoothLeDevice != null)
             {
-                //checkstatus.Text = "device is not nulll" + bluetoothLeDevice.Name;
-                // Note: BluetoothLEDevice.GattServices property will return an empty list for unpaired devices. For all uses we recommend using the GetGattServicesAsync method.
-                // BT_Code: GetGattServicesAsync returns a list of all the supported services of the device (even if it's not paired to the system).
-                // If the services supported by the device are expected to change during BT usage, subscribe to the GattServicesChanged event.
                 GattDeviceServicesResult result = await bluetoothLeDevice.GetGattServicesAsync(BluetoothCacheMode.Uncached);
                 
                 if (result.Status == GattCommunicationStatus.Success)
                 {
                     var services = result.Services;
 
+                    Guid HeartRateGuid = new Guid("0000180D-0000-1000-8000-00805F9B34FB");
+                    Guid batterylevelGuid = new Guid("0000180F-0000-1000-8000-00805F9B34FB");
+                    Guid ContinuuousO2guid = new Guid("46A970E0-0D5F-11E2-8B5E-0002A5D5C51B");
 
-                  //  rootPage.NotifyUser(String.Format("Found {0} services", services.Count), NotifyType.StatusMessage);
+                    //  rootPage.NotifyUser(String.Format("Found {0} services", services.Count), NotifyType.StatusMessage);
                     foreach (var service in services)
                     {
                         //I only need some service here not all the service 
                         ServiceList.Items.Add(new ComboBoxItem { Content = DisplayHelpers.GetServiceName(service), Tag = service });
 
-                        if (DisplayHelpers.GetServiceName(service).Equals("HeartRate"))
+                        if (service.Uuid.Equals(HeartRateGuid))
                         {
                             getHeartRateServiceCharacter(service);
-                            //0000180D-0000-1000-8000-00805F9B34FB
                         }
-
-                        if (DisplayHelpers.GetServiceName(service).Equals("Battery"))
+                       
+                        if (service.Uuid.Equals(batterylevelGuid))
                         {
                             getBatteryLevelServiceCharacter(service);
-                            //0000180F-0000-1000-8000-00805F9B34FB
                         }
-
-                        Guid spo2guid = new Guid("46A970E0-0D5F-11E2-8B5E-0002A5D5C51B");
-                        if (service.Uuid.Equals(spo2guid))
+                        
+                        if (service.Uuid.Equals(ContinuuousO2guid))
                         {
                             getSPO2ServiceCharacter(service);
-                            //46A970E0-0D5F-11E2-8B5E-0002A5D5C51B
-                           
                         }
 
                     }
@@ -180,7 +174,7 @@ namespace Mount_Sinai_Nonin_device
         }
 
         #region SpO2 value get
-        //find the right characteristice and storage in spO2CTag
+       
         private async void getSPO2ServiceCharacter(GattDeviceService SPO2serviceTag)
         {
             var service = (GattDeviceService)SPO2serviceTag;
@@ -191,7 +185,6 @@ namespace Mount_Sinai_Nonin_device
 
             try
             {
-                // Ensure we have access to the device.
                 var accessStatus = await service.RequestAccessAsync();
                 if (accessStatus == DeviceAccessStatus.Allowed)
                 {
@@ -216,16 +209,83 @@ namespace Mount_Sinai_Nonin_device
                 spO2Characterist = new List<GattCharacteristic>();
             }
 
+            Guid Oimetrychracteristic = new Guid("0AAD7EA0-0D60-11E2-8E3C-0002A5D5C51B");
+            Guid PITchracteristic = new Guid("34E27863-76FF-4F8E-96F1-9E3993AA6199");
             foreach (GattCharacteristic c in spO2Characterist)
             {
-                Guid spO2 = new Guid("0AAD7EA0-0D60-11E2-8E3C-0002A5D5C51B");
-                if (c.Uuid.Equals(spO2))
+                
+                if (c.Uuid.Equals(Oimetrychracteristic))
                 {
                     SPO2CTag = c;
                 };
+
+                if (c.Uuid.Equals(PITchracteristic))
+                {
+                    PITCTag = c;
+                }
             }
             getSpO2ValueDisplay();
+            getPITValueDisply();
         }
+
+        private async void getPITValueDisply()
+        {
+            GattCommunicationStatus status = GattCommunicationStatus.Unreachable;
+            var cccdValue = GattClientCharacteristicConfigurationDescriptorValue.Notify;
+
+            status = await PITCTag.WriteClientCharacteristicConfigurationDescriptorAsync(cccdValue);
+
+            if (status == GattCommunicationStatus.Success)
+            {
+                PITCharacteristic = PITCTag;
+                PITCharacteristic.ValueChanged += PITCharacteristic_ValueChanged;
+            }
+        }
+
+        private async void PITCharacteristic_ValueChanged(GattCharacteristic sender, GattValueChangedEventArgs args)
+        {
+            var PITvalue = PITFormatValue(args.CharacteristicValue, presentationFormat);
+            var SpO2message = PITvalue;
+
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => PITValue.Text = SpO2message);
+        }
+
+        private string PITFormatValue(IBuffer buffer, GattPresentationFormat format)
+        {
+
+            byte[] data;
+            int pitMS = 0;
+            string PIT1hex = "";
+            string PIT2hex = "";
+
+
+            CryptographicBuffer.CopyToByteArray(buffer, out data);
+
+            if (data != null) { 
+                var hexadecimal = BitConverter.ToString(data);
+                if(hexadecimal != null){
+                    try
+                    {
+                        PIT1hex = hexadecimal.Substring(18, 2);
+                        PIT2hex = hexadecimal.Substring(21, 2);
+                    }
+                    catch(Exception e)
+                    {
+                        return "0";
+                    }
+                    
+                    string PTI = "0x" + PIT1hex + PIT2hex;
+                    var PITconvert = Convert.ToInt32(PTI, 16);
+                    pitMS = Convert.ToInt32(PITconvert * 0.1);
+                }
+                
+            }
+           
+            return pitMS.ToString() + "/ms";
+        }
+
+
+        #region SpO2 from continous Oximetry 
 
         private async void getSpO2ValueDisplay()
         {
@@ -236,24 +296,58 @@ namespace Mount_Sinai_Nonin_device
 
             if (status == GattCommunicationStatus.Success)
             {
-               SPO2ValueChangedHandler();
+                spO2Characteristic = SPO2CTag;
+                spO2Characteristic.ValueChanged += spO2Characteristic_ValueChanged;
             }
-
-        }
-
-        private void SPO2ValueChangedHandler()
-        {
-            spO2Characteristic = SPO2CTag;
-            spO2Characteristic.ValueChanged += spO2Characteristic_ValueChanged;
         }
 
         private async void spO2Characteristic_ValueChanged(GattCharacteristic sender, GattValueChangedEventArgs args)
         {
-            var SpO2value = SPO2FormatValue(args.CharacteristicValue, presentationFormat);
-            var SpO2message = SpO2value;
+            var SPO2formatvalue = SPO2FormatValue(args.CharacteristicValue, presentationFormat);
+            var sp02message = SPO2formatvalue;
+
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => spO2Display.Text = sp02message);
+
+            var PAIformatvalue = PAIFormatValue(args.CharacteristicValue, presentationFormat);
+            var PAImessage = PAIformatvalue;
+
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => PAIDisplay.Text = PAImessage);
+        }
+
+        private string PAIFormatValue(IBuffer buffer, GattPresentationFormat presentationFormat)
+        {
+            byte[] data;
+            decimal pai = 0;
+            string PAI1hex = "";
+            string PAI2hex = "";
 
 
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => spO2Display.Text = SpO2message);
+            CryptographicBuffer.CopyToByteArray(buffer, out data);
+
+            if (data != null)
+            {
+                var hexadecimal = BitConverter.ToString(data);
+                if (hexadecimal != null)
+                {
+                    try
+                    {
+                        PAI1hex = hexadecimal.Substring(9, 2);
+                        PAI2hex = hexadecimal.Substring(12, 2);
+                    }
+                    catch (Exception e)
+                    {
+                        return "0";
+                    }
+
+                    string PTI = "0x" + PAI1hex + PAI2hex;
+                    var PITconvert = Convert.ToInt32(PTI, 16);
+                    pai = Convert.ToDecimal(PITconvert*0.01);
+                    
+                }
+
+            }
+
+            return pai.ToString() + " %" ;
         }
 
         private string SPO2FormatValue(IBuffer buffer, GattPresentationFormat format)
@@ -261,13 +355,19 @@ namespace Mount_Sinai_Nonin_device
 
             byte[] data;
             CryptographicBuffer.CopyToByteArray(buffer, out data);
-            var hexadecimal =  BitConverter.ToString(data);
+            var hexadecimal = BitConverter.ToString(data);
             string spo2hex = hexadecimal.Substring(21, 2);
-            string spo2 = "0x"+spo2hex;
+            string spo2 = "0x" + spo2hex;
             var spo2convert = Convert.ToInt32(spo2, 16);
 
             return spo2convert.ToString();
         }
+
+        #endregion
+
+
+        //Pulse Amplitude Index 
+
 
 
 
@@ -378,7 +478,6 @@ namespace Mount_Sinai_Nonin_device
 
 
         #endregion
-
 
         #region Heart Rate data retrive 
 

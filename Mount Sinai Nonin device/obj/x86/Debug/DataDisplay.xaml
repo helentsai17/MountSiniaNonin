@@ -21,38 +21,58 @@
         </Grid.RowDefinitions>
        
         <StackPanel>
-            <TextBlock x:ConnectionId='11' Grid.Column="1" x:Name="SelectedDeviceRun" Text="Device Name"/>
-            <Button x:ConnectionId='12' x:Name="ConnectButton" Content="Connect"                                      Margin="0,10,0,0"/>
+            <TextBlock x:ConnectionId='13' Grid.Column="1" x:Name="SelectedDeviceRun" Text="Device Name"/>
+            <Button x:ConnectionId='14' x:Name="ConnectButton" Content="Connect"                                      Margin="0,10,0,0"/>
         </StackPanel>
         <StackPanel  Grid.Row="0" Grid.Column="1">
-            <ComboBox x:ConnectionId='9'  x:Name="ServiceList" Margin="0,10,0,0" PlaceholderText="Choose a service" Visibility="Collapsed"
+            <ComboBox x:ConnectionId='11'  x:Name="ServiceList" Margin="0,10,0,0" PlaceholderText="Choose a service" Visibility="Collapsed"
                                                                               />
-            <ComboBox x:ConnectionId='10'  x:Name="CharacteristicList" Margin="0,10,0,0" PlaceholderText="Choose a characteristic" Visibility="Collapsed"
+            <ComboBox x:ConnectionId='12'  x:Name="CharacteristicList" Margin="0,10,0,0" PlaceholderText="Choose a characteristic" Visibility="Collapsed"
                                                                                  />
         </StackPanel>
         <StackPanel Grid.Column="2">
-            <TextBlock x:ConnectionId='7' x:Name="BatteryLevelData" TextWrapping="Wrap" HorizontalAlignment="Right"/>
-            <TextBlock x:ConnectionId='8' x:Name="checkstatus" TextWrapping="Wrap"/>
+            <TextBlock x:ConnectionId='9' x:Name="BatteryLevelData" TextWrapping="Wrap" HorizontalAlignment="Right"/>
+            <TextBlock x:ConnectionId='10' x:Name="checkstatus" TextWrapping="Wrap"/>
         </StackPanel>
-        
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="Heart Rate" FontSize="30" TextWrapping="Wrap" />
+
+        <Border BorderBrush="Black" BorderThickness="10"  Grid.Row="1" Grid.Column="0" Margin="2">
+            <StackPanel Margin="10">
+                <TextBlock  Text="Heart Rate" FontSize="30" TextWrapping="Wrap" />
+                <TextBlock x:ConnectionId='8' x:Name="HeartReteDataDisply" FontSize="50"  TextWrapping="Wrap" />
+            </StackPanel>
+        </Border>
+       
 
         <StackPanel Grid.Row="1" Grid.Column="1" >
-            <TextBlock x:ConnectionId='6' x:Name="HeartReteDataDisply" FontSize="80"  TextWrapping="Wrap" />
+            <TextBlock x:ConnectionId='7' x:Name="PITValue" FontSize="30" HorizontalAlignment="Right"/>
         </StackPanel>
-        
-        <TextBlock Grid.Row="2" Grid.Column="0" Text="SPO2" FontSize="30" TextWrapping="Wrap" />
 
-        <StackPanel  Grid.Row="2" Grid.Column="1" >
-            <TextBlock x:ConnectionId='5'  x:Name="spO2Display" FontSize="30" TextWrapping="Wrap"/>
-        </StackPanel>
+        <Border BorderBrush="Black" BorderThickness="10" Grid.Row="2" Grid.Column="0" Margin="2">
+            <StackPanel Margin="10">
+                <TextBlock Text="SPO2" FontSize="30" TextWrapping="Wrap" />
+                <TextBlock x:ConnectionId='6' x:Name="spO2Display" FontSize="50" TextWrapping="Wrap"/>
+            </StackPanel>
+        </Border>
+        
+
+
+        <Border BorderBrush="Black" BorderThickness="10"  Grid.Row="2" Grid.Column="1" Margin="2" >
+            <StackPanel Margin="10">
+                <TextBlock Text="PAI" FontSize="30" TextWrapping="Wrap" />
+                <TextBlock x:ConnectionId='5' x:Name="PAIDisplay" FontSize="50" TextWrapping="Wrap"/>
+            </StackPanel>
+        </Border>
+        
       
         <StackPanel Grid.Row="2" Grid.Column="2">
+            
             <Button x:ConnectionId='2' x:Name="CharacteristicReadButton" Content="Read Value"                                                
                         Visibility="Collapsed" Margin="0,10,10,0"/>
             <Button x:ConnectionId='3' x:Name="ValueChangedSubscribeToggle" Content="Subscribe to value changes"                                                   
                         Visibility="Collapsed" Margin="0,10,10,0"/>
             <TextBlock x:ConnectionId='4' x:Name="CharacteristicLatestValue"  TextWrapping="WrapWholeWords"/>
+
+            
         </StackPanel>
        
     </Grid>
