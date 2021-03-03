@@ -158,10 +158,12 @@ namespace Mount_Sinai_Nonin_device
                             //0000180F-0000-1000-8000-00805F9B34FB
                         }
 
-                        if (DisplayHelpers.GetServiceName(service).Equals("OximeterService"))
+                        Guid spo2guid = new Guid("46A970E0-0D5F-11E2-8B5E-0002A5D5C51B");
+                        if (service.Uuid.Equals(spo2guid))
                         {
                             getSPO2ServiceCharacter(service);
-                            //00001822-0000-1000-8000-00805F9B34FB
+                            //46A970E0-0D5F-11E2-8B5E-0002A5D5C51B
+                           
                         }
 
                     }
@@ -216,7 +218,8 @@ namespace Mount_Sinai_Nonin_device
 
             foreach (GattCharacteristic c in spO2Characterist)
             {
-                if (DisplayHelpers.GetCharacteristicName(c).Equals("PulseOximetryContinuousMeasurement"))
+                Guid spO2 = new Guid("0AAD7EA0-0D60-11E2-8E3C-0002A5D5C51B");
+                if (c.Uuid.Equals(spO2))
                 {
                     SPO2CTag = c;
                 };
@@ -240,7 +243,7 @@ namespace Mount_Sinai_Nonin_device
 
         private void SPO2ValueChangedHandler()
         {
-            spO2Characteristic = HRCTag;
+            spO2Characteristic = SPO2CTag;
             spO2Characteristic.ValueChanged += spO2Characteristic_ValueChanged;
         }
 
@@ -248,6 +251,7 @@ namespace Mount_Sinai_Nonin_device
         {
             var SpO2value = SPO2FormatValue(args.CharacteristicValue, presentationFormat);
             var SpO2message = SpO2value;
+
 
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => spO2Display.Text = SpO2message);
         }
@@ -257,28 +261,12 @@ namespace Mount_Sinai_Nonin_device
 
             byte[] data;
             CryptographicBuffer.CopyToByteArray(buffer, out data);
+            var hexadecimal =  BitConverter.ToString(data);
+            string spo2hex = hexadecimal.Substring(21, 2);
+            string spo2 = "0x"+spo2hex;
+            var spo2convert = Convert.ToInt32(spo2, 16);
 
-            if (data != null)
-            {
-
-                if (SPO2CTag.Uuid.Equals(GattCharacteristicUuids.GattServiceChanged))
-                {
-                    try
-                    {
-                        return data.ToString();
-                    }
-                    catch (ArgumentException)
-                    {
-                        return "Heart Rate: (unable to parse)";
-                    }
-                }
-
-            }
-            else
-            {
-                return "Empty data received";
-            }
-            return data.ToString();
+            return spo2convert.ToString();
         }
 
 
@@ -583,7 +571,7 @@ namespace Mount_Sinai_Nonin_device
 
             foreach (GattCharacteristic c in characteristics)
             {
-                CharacteristicList.Items.Add(new ComboBoxItem { Content = DisplayHelpers.GetCharacteristicName(c), Tag = c });
+                CharacteristicList.Items.Add(new ComboBoxItem { Content = c.Uuid, Tag = c });
             }
             CharacteristicList.Visibility = Visibility.Visible;
         }
@@ -876,12 +864,10 @@ namespace Mount_Sinai_Nonin_device
             {
                 return "Empty data received";
             }
-            return "Unknown format no data recived";
+            return BitConverter.ToString(data);
         }
 
        
-
-
 
         
     }
