@@ -30,13 +30,17 @@
     <AppXManifest Include="C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2021-03-03T23:32:35.756</Modified>
+      <Modified>2021-03-08T20:21:42.412</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\Mount Sinai Nonin device.exe">
       <PackagePath>entrypoint\Mount Sinai Nonin device.exe</PackagePath>
-      <Modified>2021-03-03T23:32:35.242</Modified>
+      <Modified>2021-03-08T20:21:41.275</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\WRK_PC\.nuget\packages\microsoft.toolkit.uwp.notifications\6.1.1\lib\uap10.0\Microsoft.Toolkit.Uwp.Notifications.dll">
+      <PackagePath>Microsoft.Toolkit.Uwp.Notifications.dll</PackagePath>
+      <Modified>2020-08-13T02:29:50.000</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Microsoft SDKs\UWPNuGetPackages\runtime.win10-x86.microsoft.netcore.universalwindowsplatform\6.2.10\runtimes\win10-x86\lib\uap10.0.15138\System.Runtime.dll">
       <PackagePath>System.Runtime.dll</PackagePath>
@@ -86,27 +90,27 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\Mount Sinai Nonin device.xr.xml">
       <PackagePath>Mount Sinai Nonin device.xr.xml</PackagePath>
-      <Modified>2021-03-03T23:27:34.280</Modified>
+      <Modified>2021-03-07T15:34:19.243</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\App.xbf">
       <PackagePath>App.xbf</PackagePath>
-      <Modified>2021-03-03T23:24:57.303</Modified>
+      <Modified>2021-03-08T20:21:41.071</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\DataDisplay.xbf">
       <PackagePath>DataDisplay.xbf</PackagePath>
-      <Modified>2021-03-03T23:32:35.101</Modified>
+      <Modified>2021-03-08T20:21:41.071</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\MainPage.xbf">
       <PackagePath>MainPage.xbf</PackagePath>
-      <Modified>2021-03-03T23:24:57.304</Modified>
+      <Modified>2021-03-08T20:21:41.071</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\ScanAndPair.xbf">
       <PackagePath>ScanAndPair.xbf</PackagePath>
-      <Modified>2021-03-03T23:24:57.304</Modified>
+      <Modified>2021-03-08T20:21:41.072</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\UserInfo.xbf">
       <PackagePath>UserInfo.xbf</PackagePath>
-      <Modified>2021-03-03T23:24:57.304</Modified>
+      <Modified>2021-03-08T20:21:41.072</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\10.0.18362.0\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
@@ -114,11 +118,11 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2021-02-26T17:52:02.850</Modified>
+      <Modified>2021-03-07T01:33:49.879</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\Core\Mount Sinai Nonin device.exe">
       <PackagePath>Mount Sinai Nonin device.exe</PackagePath>
-      <Modified>2021-03-03T23:32:35.746</Modified>
+      <Modified>2021-03-08T20:21:42.399</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

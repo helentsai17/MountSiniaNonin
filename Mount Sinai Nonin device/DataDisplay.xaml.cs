@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Devices.Enumeration;
@@ -44,14 +45,17 @@ namespace Mount_Sinai_Nonin_device
         //heartRete value
         private GattCharacteristic HartRateCharacteristic;
         GattCharacteristic HRCTag;
+        String heartrateShare =""; 
 
         //battery level 
         private GattCharacteristic BatteryCharacteristic;
         GattCharacteristic BLCTag;
 
+
         //SpO2 value 
         private GattCharacteristic spO2Characteristic;
         GattCharacteristic SPO2CTag;
+        String SpO2Share = "";
 
         //Pulse Interval Timing(PIT)
         private GattCharacteristic PITCharacteristic;
@@ -69,6 +73,23 @@ namespace Mount_Sinai_Nonin_device
             {
                 ConnectButton.IsEnabled = false;
             }
+
+            //use for data sharing 
+            DataTransferManager dtm = DataTransferManager.GetForCurrentView();
+            dtm.DataRequested += Dtm_DataRequested;
+
+        }
+
+        private void Dtm_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
+        {
+            DataRequest request = args.Request;
+            
+           //TODO if device dose not connect then can not be shared
+           // request.FailWithDisplayText("some data dose not retrive, please try again")
+
+            request.Data.Properties.Title = "Nonin 3150 device";
+            request.Data.Properties.Description = "sharing your data to mount sinai";
+            request.Data.SetText("data come from device: " + rootPage.SelectedBleDeviceName +"\n SpO2 data" + SpO2Share +"\n heart rate data: " + heartrateShare);
         }
 
         protected override async void OnNavigatedFrom(NavigationEventArgs e)
@@ -78,6 +99,17 @@ namespace Mount_Sinai_Nonin_device
             {
                // rootPage.NotifyUser("Error: Unable to reset app state", NotifyType.ErrorMessage);
             }
+
+            //use for data sharing but no longer shared
+            DataTransferManager dtm = DataTransferManager.GetForCurrentView();
+            dtm.DataRequested -= Dtm_DataRequested;
+
+        }
+
+        private void ShareData(object sender, RoutedEventArgs e)
+        {
+            DataTransferManager.ShowShareUI();
+
         }
 
         private async Task<bool> ClearBluetoothLEDeviceAsync()
@@ -242,12 +274,14 @@ namespace Mount_Sinai_Nonin_device
             }
         }
 
+        #region PIT from continous Oximetry 
+
         private async void PITCharacteristic_ValueChanged(GattCharacteristic sender, GattValueChangedEventArgs args)
         {
             var PITvalue = PITFormatValue(args.CharacteristicValue, presentationFormat);
-            var SpO2message = PITvalue;
+            var PITmessage = PITvalue;
 
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => PITValue.Text = SpO2message);
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => PITValue.Text = PITmessage);
         }
 
         private string PITFormatValue(IBuffer buffer, GattPresentationFormat format)
@@ -284,6 +318,7 @@ namespace Mount_Sinai_Nonin_device
             return pitMS.ToString() + "/ms";
         }
 
+#endregion
 
         #region SpO2 from continous Oximetry 
 
@@ -305,6 +340,7 @@ namespace Mount_Sinai_Nonin_device
         {
             var SPO2formatvalue = SPO2FormatValue(args.CharacteristicValue, presentationFormat);
             var sp02message = SPO2formatvalue;
+            SpO2Share = SPO2formatvalue;
 
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => spO2Display.Text = sp02message);
 
@@ -562,7 +598,8 @@ namespace Mount_Sinai_Nonin_device
           
             var HeartRatevalue = HeartRateFormatValue(args.CharacteristicValue, presentationFormat);
             var HRmessage = HeartRatevalue;
-           
+            heartrateShare = HeartRatevalue;
+
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => HeartReteDataDisply.Text = HeartRatevalue);
         }
 
@@ -579,7 +616,6 @@ namespace Mount_Sinai_Nonin_device
                 {
                     try
                     {
-
                         return ParseHeartRateValue(data).ToString();
                     }
                     catch (ArgumentException)
@@ -637,7 +673,6 @@ namespace Mount_Sinai_Nonin_device
                     // and the new Async functions to get the characteristics of unpaired devices as well. 
                     var result = await service.GetCharacteristicsAsync(BluetoothCacheMode.Uncached);
                    
-
                     if (result.Status == GattCommunicationStatus.Success)
                     {
                         characteristics = result.Characteristics;  
@@ -815,9 +850,7 @@ namespace Mount_Sinai_Nonin_device
                     // BT_Code: Must write the CCCD in order for server to send notifications.
                     // We receive them in the ValueChanged event handler.
                     // Note that this sample configures either Indicate or Notify, but not both.
-                    var result = await
-                            selectedCharacteristic.WriteClientCharacteristicConfigurationDescriptorAsync(
-                                GattClientCharacteristicConfigurationDescriptorValue.None);
+                    var result = await selectedCharacteristic.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.None);
                     if (result == GattCommunicationStatus.Success)
                     {
                         subscribedForNotifications = false;
@@ -965,8 +998,6 @@ namespace Mount_Sinai_Nonin_device
             }
             return BitConverter.ToString(data);
         }
-
-       
 
         
     }

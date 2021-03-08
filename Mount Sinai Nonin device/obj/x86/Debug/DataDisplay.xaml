@@ -21,18 +21,19 @@
         </Grid.RowDefinitions>
        
         <StackPanel>
-            <TextBlock x:ConnectionId='13' Grid.Column="1" x:Name="SelectedDeviceRun" Text="Device Name"/>
-            <Button x:ConnectionId='14' x:Name="ConnectButton" Content="Connect"                                      Margin="0,10,0,0"/>
+            <TextBlock x:ConnectionId='14' Grid.Column="1" x:Name="SelectedDeviceRun" Text="Device Name"/>
+            <Button x:ConnectionId='15' x:Name="ConnectButton" Content="Connect"                                      Margin="0,10,0,0"/>
         </StackPanel>
         <StackPanel  Grid.Row="0" Grid.Column="1">
-            <ComboBox x:ConnectionId='11'  x:Name="ServiceList" Margin="0,10,0,0" PlaceholderText="Choose a service" Visibility="Collapsed"
+            <ComboBox x:ConnectionId='12'  x:Name="ServiceList" Margin="0,10,0,0" PlaceholderText="Choose a service" Visibility="Collapsed"
                                                                               />
-            <ComboBox x:ConnectionId='12'  x:Name="CharacteristicList" Margin="0,10,0,0" PlaceholderText="Choose a characteristic" Visibility="Collapsed"
+            <ComboBox x:ConnectionId='13'  x:Name="CharacteristicList" Margin="0,10,0,0" PlaceholderText="Choose a characteristic" Visibility="Collapsed"
                                                                                  />
         </StackPanel>
         <StackPanel Grid.Column="2">
             <TextBlock x:ConnectionId='9' x:Name="BatteryLevelData" TextWrapping="Wrap" HorizontalAlignment="Right"/>
-            <TextBlock x:ConnectionId='10' x:Name="checkstatus" TextWrapping="Wrap"/>
+            <Button x:ConnectionId='10' Content="Share my data" FontSize="20"                  />
+            <TextBlock x:ConnectionId='11' x:Name="checkstatus" TextWrapping="Wrap"/>
         </StackPanel>
 
         <Border BorderBrush="Black" BorderThickness="10"  Grid.Row="1" Grid.Column="0" Margin="2">

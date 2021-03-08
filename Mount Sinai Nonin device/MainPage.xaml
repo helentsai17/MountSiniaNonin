@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -31,6 +31,7 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <SymbolIcon Margin="4" Grid.Row ="2" Symbol="Contact2" HorizontalAlignment="Left"/>
                     <SymbolIcon Margin="4" Grid.Row ="1" Symbol="RepeatAll" HorizontalAlignment="Left"/>
@@ -38,10 +39,11 @@
                     <Button Background="{x:Null}" Grid.Row="0" Grid.Column="1" Margin="4" Content="Find Device" FontSize="30" Click="Goto_FindDevice" />
                     <Button Background="{x:Null}" Grid.Row="1" Grid.Column="1" Margin="4" Content="Data" FontSize="30" Click="Goto_SeeData"/>
                     <Button Background="{x:Null}" Grid.Row="2" Grid.Column="1" Margin="4" Content="Person" FontSize="30" Click="Goto_UserInfo"/>
+                    <Button Background="{x:Null}" Grid.Row="3" Grid.Column="1" Margin="4,0,0,0" Content="Toast" FontSize="30" Click="ToastNotification" VerticalAlignment="Bottom"/>
                 </Grid>
             </SplitView.Pane>
             <Frame  x:Name="InnerFrame"/>
         </SplitView>
-        
+
     </Grid>
 </Page>

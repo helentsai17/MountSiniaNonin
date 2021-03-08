@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.Notifications;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Core;
+using Windows.UI.Notifications;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -95,6 +97,44 @@ namespace Mount_Sinai_Nonin_device
         private void Open_Menu(object sender, RoutedEventArgs e)
         {
             SView.IsPaneOpen = !SView.IsPaneOpen;
+        }
+
+
+        // Toast show notification
+        private void ToastNotification(object sender, RoutedEventArgs e)
+        {
+            ToastContent content = new ToastContent()
+            {
+                Launch = "app-defined-string",
+                Visual = new ToastVisual()
+                {
+                    BindingGeneric = new ToastBindingGeneric
+                    {
+                        Children =
+                        {
+                            new AdaptiveText()
+                            {
+                                Text = "Nonin device 3150"
+                            },
+                            new AdaptiveText()
+                            {
+                                Text = "device is not connected"
+                            }
+
+                        },
+                    }
+                },
+          
+                Audio = new ToastAudio()
+                {
+                    Src = new Uri("ms-winsoundevent:Notification.Reminder")
+                }
+            };
+
+            var notification = new ToastNotification(content.GetXml());
+            notification.ExpirationTime = DateTimeOffset.UtcNow.AddMinutes(10);
+            ToastNotificationManager.CreateToastNotifier().Show(notification);
+
         }
     }
 }

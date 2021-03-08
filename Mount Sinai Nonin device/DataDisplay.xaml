@@ -32,6 +32,7 @@
         </StackPanel>
         <StackPanel Grid.Column="2">
             <TextBlock x:Name="BatteryLevelData" TextWrapping="Wrap" HorizontalAlignment="Right"/>
+            <Button Content="Share my data" FontSize="20" Click="ShareData"/>
             <TextBlock x:Name="checkstatus" TextWrapping="Wrap"/>
         </StackPanel>
 

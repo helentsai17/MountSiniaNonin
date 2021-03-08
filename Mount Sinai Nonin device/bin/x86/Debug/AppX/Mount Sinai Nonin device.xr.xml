@@ -40,10 +40,10 @@
       <RootProperty Name="Content" />
       <RootProperty Name="Visibility" />
       <RootProperty Name="Margin" />
-      <RootProperty Name="Background" />
       <RootProperty Name="FontSize" />
-      <RootProperty Name="Padding" />
+      <RootProperty Name="Background" />
       <RootProperty Name="VerticalAlignment" />
+      <RootProperty Name="Padding" />
       <RootProperty Name="IsEnabled" />
       <RootEvent Name="Click" />
     </RootType>

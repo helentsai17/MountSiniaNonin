@@ -42,6 +42,12 @@ namespace Mount_Sinai_Nonin_device
            
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            StartBleDeviceWatcher();
+        }
+
+
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
@@ -55,6 +61,7 @@ namespace Mount_Sinai_Nonin_device
                 rootPage.SelectedBleDeviceName = bleDeviceDisplay.Name;
             }
         }
+
         private void EnumerateButton_Click()
         {
             if (deviceWatcher == null)
@@ -167,7 +174,7 @@ namespace Mount_Sinai_Nonin_device
                         // Make sure device isn't already present in the list.
                         if (FindBluetoothLEDeviceDisplay(deviceInfo.Id) == null)
                         {
-                            if (deviceInfo.Name != string.Empty)
+                            if (deviceInfo.Name != string.Empty && deviceInfo.Name.ToUpper().Contains("NONIN"))
                             {
                                 // If device has a friendly name display it immediately.
                                 KnownDevices.Add(new BluetoothLEDeviceDisplay(deviceInfo));
