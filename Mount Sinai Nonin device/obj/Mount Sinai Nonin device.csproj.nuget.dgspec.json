@@ -46,6 +46,14 @@
             "Microsoft.Toolkit.Uwp.Notifications": {
               "target": "Package",
               "version": "[6.1.1, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.3, )"
+            },
+            "kayChart.dll": {
+              "target": "Package",
+              "version": "[0.4.7, )"
             }
           },
           "imports": [

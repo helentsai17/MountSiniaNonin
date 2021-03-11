@@ -61,6 +61,9 @@ namespace Mount_Sinai_Nonin_device
         private GattCharacteristic PITCharacteristic;
         GattCharacteristic PITCTag;
 
+        //timer
+        String Timer;
+
         public DataDisplay()
         {
             this.InitializeComponent();
@@ -80,6 +83,7 @@ namespace Mount_Sinai_Nonin_device
 
         }
 
+        //sending data
         private void Dtm_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
             DataRequest request = args.Request;
@@ -89,7 +93,7 @@ namespace Mount_Sinai_Nonin_device
 
             request.Data.Properties.Title = "Nonin 3150 device";
             request.Data.Properties.Description = "sharing your data to mount sinai";
-            request.Data.SetText("data come from device: " + rootPage.SelectedBleDeviceName +"\n SpO2 data" + SpO2Share +"\n heart rate data: " + heartrateShare);
+            request.Data.SetText("data come from device: " + rootPage.SelectedBleDeviceName +"\n SpO2 data" + SpO2Share +"\n heart rate data: " + heartrateShare + "\n at " + Timer);
         }
 
         protected override async void OnNavigatedFrom(NavigationEventArgs e)
@@ -109,7 +113,6 @@ namespace Mount_Sinai_Nonin_device
         private void ShareData(object sender, RoutedEventArgs e)
         {
             DataTransferManager.ShowShareUI();
-
         }
 
         private async Task<bool> ClearBluetoothLEDeviceAsync()
@@ -133,9 +136,13 @@ namespace Mount_Sinai_Nonin_device
             return true;
         }
 
+
+
         private async void ConnectButton_Click()
         {
             ConnectButton.IsEnabled = false;
+           
+
 
             if (!await ClearBluetoothLEDeviceAsync())
             {
@@ -161,6 +168,7 @@ namespace Mount_Sinai_Nonin_device
 
             if (bluetoothLeDevice != null)
             {
+                LoadAsync();
                 GattDeviceServicesResult result = await bluetoothLeDevice.GetGattServicesAsync(BluetoothCacheMode.Uncached);
                 
                 if (result.Status == GattCommunicationStatus.Success)
@@ -196,6 +204,7 @@ namespace Mount_Sinai_Nonin_device
                     
                     ConnectButton.Visibility = Visibility.Collapsed;
                     ServiceList.Visibility = Visibility.Visible;
+                    
                 }
                 else
                 {
@@ -203,10 +212,21 @@ namespace Mount_Sinai_Nonin_device
                 }
             }
             ConnectButton.IsEnabled = true;
+           
         }
 
-        #region SpO2 value get
+
+        public async Task LoadAsync()
+        {
+            progressring.IsActive = true;
+            await Task.Delay(4000);
+            progressring.IsActive = false;
+            ShareButton.Visibility = Visibility.Visible;
+        }
        
+
+        #region SpO2 value get
+
         private async void getSPO2ServiceCharacter(GattDeviceService SPO2serviceTag)
         {
             var service = (GattDeviceService)SPO2serviceTag;
@@ -600,6 +620,12 @@ namespace Mount_Sinai_Nonin_device
             var HRmessage = HeartRatevalue;
             heartrateShare = HeartRatevalue;
 
+            var Timemessage = $"At {DateTime.Now:hh:mm:ss}";
+            Timer = Timemessage;
+
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                () => TimeNow.Text = Timemessage);
+
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => HeartReteDataDisply.Text = HeartRatevalue);
         }
 
@@ -737,8 +763,6 @@ namespace Mount_Sinai_Nonin_device
                 return;
             }
 
-            // Get all the child descriptors of a characteristics. Use the cache mode to specify uncached descriptors only 
-            // and the new Async functions to get the descriptors of unpaired devices as well. 
             var result = await selectedCharacteristic.GetDescriptorsAsync(BluetoothCacheMode.Uncached);
            
             if (result.Status != GattCommunicationStatus.Success)

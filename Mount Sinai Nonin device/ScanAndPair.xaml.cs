@@ -47,7 +47,7 @@ namespace Mount_Sinai_Nonin_device
             StartBleDeviceWatcher();
         }
 
-
+        
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
@@ -89,13 +89,13 @@ namespace Mount_Sinai_Nonin_device
 
             // BT_Code: Example showing paired and non-paired in a single query.
             string aqsAllBluetoothLEDevices = "(System.Devices.Aep.ProtocolId:=\"{bb7bb05e-5972-42b5-94fc-76eaa7084d49}\")";
-
+           
             deviceWatcher =
                     DeviceInformation.CreateWatcher(
                         aqsAllBluetoothLEDevices,
                         requestedProperties,
                         DeviceInformationKind.AssociationEndpoint);
-
+           
             // Register event handlers before starting the watcher.
             deviceWatcher.Added += DeviceWatcher_Added;
             deviceWatcher.Updated += DeviceWatcher_Updated;
@@ -172,7 +172,7 @@ namespace Mount_Sinai_Nonin_device
                     if (sender == deviceWatcher)
                     {
                         // Make sure device isn't already present in the list.
-                        if (FindBluetoothLEDeviceDisplay(deviceInfo.Id) == null)
+                        if (FindBluetoothLEDeviceDisplay(deviceInfo.Id) == null && deviceInfo.Name.ToUpper().Contains("NONIN"))
                         {
                             if (deviceInfo.Name != string.Empty && deviceInfo.Name.ToUpper().Contains("NONIN"))
                             {

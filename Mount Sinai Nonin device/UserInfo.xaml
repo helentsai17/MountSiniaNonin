@@ -9,6 +9,14 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+            <StackPanel>
+                <Button Content="create user" Click="create_local_userinfo_click"/>
+                <Button Content="edit" Click="edit_local_userinfo"/>
+        </StackPanel>
+        <TextBox Grid.Row="1" IsReadOnly="True" x:Name="personInfo" />
     </Grid>
 </Page>

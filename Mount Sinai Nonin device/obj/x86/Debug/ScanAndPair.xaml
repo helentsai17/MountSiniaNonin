@@ -30,6 +30,7 @@
         </Grid.RowDefinitions>
         <StackPanel>
             <TextBlock Text="Mount Sinai Nonin 3150 device" FontSize="30"/>
+       
             <TextBlock Text="Find device Nonin 3150 and lick pair if it's already paired(IsPaird: true) move to the next step"/>
             <Button x:ConnectionId='9' x:Name="EnumerateButton" Content="Start finding device"                                        />
             <Button x:ConnectionId='10' x:Name="PairButton" Content="Pair"                                   Margin="0,0,10,0"
