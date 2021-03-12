@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Mount_Sinai_Nonin_device"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:charting="using:WinRTXamlToolkit.Controls.DataVisualization.Charting"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -19,16 +19,13 @@
             <RowDefinition Height="3*"/>
             <RowDefinition Height="3*"/>
         </Grid.RowDefinitions>
-       
+
         <StackPanel>
             <TextBlock Grid.Column="1" x:Name="SelectedDeviceRun" Text="Device Name"/>
             <StackPanel HorizontalAlignment="Left">
                 <Button x:Name="ConnectButton" Content="Connect" Click="{x:Bind ConnectButton_Click}" Margin="0,10,0,0"/>
                 <ProgressRing  x:Name="progressring" Visibility="Visible" IsActive="False" />
             </StackPanel>
-           
-
-
         </StackPanel>
         <StackPanel  Grid.Row="0" Grid.Column="1">
             <ComboBox  x:Name="ServiceList" Margin="0,10,0,0" PlaceholderText="Choose a service" Visibility="Collapsed"
@@ -40,50 +37,49 @@
             <TextBlock x:Name="BatteryLevelData" TextWrapping="Wrap" HorizontalAlignment="Right"/>
             <TextBlock x:Name="TimeNow" TextWrapping="Wrap" HorizontalAlignment="Right"/>
             <Button x:Name="ShareButton" Content="Share my data" FontSize="20" Click="ShareData" Visibility="Collapsed"/>
-            
         </StackPanel>
 
         <Border BorderBrush="Black" BorderThickness="10"  Grid.Row="1" Grid.Column="0" Margin="2">
             <StackPanel Margin="10">
                 <TextBlock  Text="Heart Rate" FontSize="30" TextWrapping="Wrap" />
-                <TextBlock x:Name="HeartReteDataDisply" FontSize="50"  TextWrapping="Wrap" />
+                <TextBlock x:Name="HeartReteDataDisply" FontSize="45"  TextWrapping="Wrap" />
             </StackPanel>
         </Border>
-       
 
-        <StackPanel Grid.Row="1" Grid.Column="1" >
+
+        <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" >
             <TextBlock x:Name="PITValue" FontSize="30" HorizontalAlignment="Right"/>
+            
         </StackPanel>
+       
 
         <Border BorderBrush="Black" BorderThickness="10" Grid.Row="2" Grid.Column="0" Margin="2">
             <StackPanel Margin="10">
                 <TextBlock Text="SPO2" FontSize="30" TextWrapping="Wrap" />
-                <TextBlock x:Name="spO2Display" FontSize="50" TextWrapping="Wrap"/>
+                <TextBlock x:Name="spO2Display" FontSize="45" TextWrapping="Wrap"/>
             </StackPanel>
         </Border>
-        
+
 
 
         <Border BorderBrush="Black" BorderThickness="10"  Grid.Row="2" Grid.Column="1" Margin="2" >
             <StackPanel Margin="10">
                 <TextBlock Text="PAI" FontSize="30" TextWrapping="Wrap" />
-                <TextBlock x:Name="PAIDisplay" FontSize="50" TextWrapping="Wrap"/>
+                <TextBlock x:Name="PAIDisplay" FontSize="45" TextWrapping="Wrap"/>
             </StackPanel>
         </Border>
-        
-      
+
+
         <StackPanel Grid.Row="2" Grid.Column="2">
-            
+
             <Button x:Name="CharacteristicReadButton" Content="Read Value" Click="{x:Bind CharacteristicReadButton_Click}"
                         Visibility="Collapsed" Margin="0,10,10,0"/>
             <Button x:Name="ValueChangedSubscribeToggle" Content="Subscribe to value changes" Click="{x:Bind ValueChangedSubscribeToggle_Click}"
                         Visibility="Collapsed" Margin="0,10,10,0"/>
             <TextBlock x:Name="CharacteristicLatestValue"  TextWrapping="WrapWholeWords"/>
 
-            
         </StackPanel>
-        <ProgressRing Grid.Column="2" HorizontalAlignment="Left" Margin="689,222,0,0" Grid.RowSpan="2" Grid.Row="1" VerticalAlignment="Top"/>
-      
+        
 
     </Grid>
 </Page>

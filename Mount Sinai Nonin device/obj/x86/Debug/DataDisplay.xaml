@@ -1,0 +1,86 @@
+﻿<Page x:ConnectionId='1'
+    x:Class="Mount_Sinai_Nonin_device.DataDisplay"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Mount_Sinai_Nonin_device"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:charting="using:WinRTXamlToolkit.Controls.DataVisualization.Charting"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel>
+            <TextBlock x:ConnectionId='14' Grid.Column="1" x:Name="SelectedDeviceRun" Text="Device Name"/>
+            <StackPanel HorizontalAlignment="Left">
+                <Button x:ConnectionId='15' x:Name="ConnectButton" Content="Connect"                                      Margin="0,10,0,0"/>
+                <ProgressRing x:ConnectionId='16'  x:Name="progressring" Visibility="Visible" IsActive="False" />
+            </StackPanel>
+        </StackPanel>
+        <StackPanel  Grid.Row="0" Grid.Column="1">
+            <ComboBox x:ConnectionId='12'  x:Name="ServiceList" Margin="0,10,0,0" PlaceholderText="Choose a service" Visibility="Collapsed"
+                                                                              />
+            <ComboBox x:ConnectionId='13'  x:Name="CharacteristicList" Margin="0,10,0,0" PlaceholderText="Choose a characteristic" Visibility="Collapsed"
+                                                                                 />
+        </StackPanel>
+        <StackPanel Grid.Column="2">
+            <TextBlock x:ConnectionId='9' x:Name="BatteryLevelData" TextWrapping="Wrap" HorizontalAlignment="Right"/>
+            <TextBlock x:ConnectionId='10' x:Name="TimeNow" TextWrapping="Wrap" HorizontalAlignment="Right"/>
+            <Button x:ConnectionId='11' x:Name="ShareButton" Content="Share my data" FontSize="20"                   Visibility="Collapsed"/>
+        </StackPanel>
+
+        <Border BorderBrush="Black" BorderThickness="10"  Grid.Row="1" Grid.Column="0" Margin="2">
+            <StackPanel Margin="10">
+                <TextBlock  Text="Heart Rate" FontSize="30" TextWrapping="Wrap" />
+                <TextBlock x:ConnectionId='8' x:Name="HeartReteDataDisply" FontSize="45"  TextWrapping="Wrap" />
+            </StackPanel>
+        </Border>
+
+
+        <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" >
+            <TextBlock x:ConnectionId='7' x:Name="PITValue" FontSize="30" HorizontalAlignment="Right"/>
+            
+        </StackPanel>
+       
+
+        <Border BorderBrush="Black" BorderThickness="10" Grid.Row="2" Grid.Column="0" Margin="2">
+            <StackPanel Margin="10">
+                <TextBlock Text="SPO2" FontSize="30" TextWrapping="Wrap" />
+                <TextBlock x:ConnectionId='6' x:Name="spO2Display" FontSize="45" TextWrapping="Wrap"/>
+            </StackPanel>
+        </Border>
+
+
+
+        <Border BorderBrush="Black" BorderThickness="10"  Grid.Row="2" Grid.Column="1" Margin="2" >
+            <StackPanel Margin="10">
+                <TextBlock Text="PAI" FontSize="30" TextWrapping="Wrap" />
+                <TextBlock x:ConnectionId='5' x:Name="PAIDisplay" FontSize="45" TextWrapping="Wrap"/>
+            </StackPanel>
+        </Border>
+
+
+        <StackPanel Grid.Row="2" Grid.Column="2">
+
+            <Button x:ConnectionId='2' x:Name="CharacteristicReadButton" Content="Read Value"                                                
+                        Visibility="Collapsed" Margin="0,10,10,0"/>
+            <Button x:ConnectionId='3' x:Name="ValueChangedSubscribeToggle" Content="Subscribe to value changes"                                                   
+                        Visibility="Collapsed" Margin="0,10,10,0"/>
+            <TextBlock x:ConnectionId='4' x:Name="CharacteristicLatestValue"  TextWrapping="WrapWholeWords"/>
+
+        </StackPanel>
+        
+
+    </Grid>
+</Page>
+

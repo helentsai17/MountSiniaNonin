@@ -11,12 +11,44 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-            <StackPanel>
-                <Button Content="create user" Click="create_local_userinfo_click"/>
+            <StackPanel Orientation="Horizontal">
+            <Button Margin="10" Content="Create User" Click="Open_window_To_Create"/>
+            <!--<Button Margin="10" Content="Read user Data" Click="create_local_userinfo_click"/>-->
                 <Button Content="edit" Click="edit_local_userinfo"/>
         </StackPanel>
-        <TextBox Grid.Row="1" IsReadOnly="True" x:Name="personInfo" />
+        
+  
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Column="0" Margin="10" Text="Frist Name :"/>
+            <TextBlock x:Name="fNameOutput" Margin="10" HorizontalAlignment="Left"  Grid.Column="1" Width="300"/>
+
+            <TextBlock Grid.Column="0"  Grid.Row="1" Margin="10" Text="Last Name : "/>
+            <TextBlock x:Name="LNameOutput" Margin="10" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="1" />
+
+            <TextBlock  Grid.Column="0"  Grid.Row="2" Margin="10" Text="Address : "/>
+            <TextBlock x:Name="addressOutput" Margin="10" HorizontalAlignment="Left" Grid.Column="2"  Grid.Row="2" />
+
+            <TextBlock  Grid.Column="0"  Grid.Row="3" Margin="10" Text="phone Number : "/>
+            <TextBlock x:Name="phoneOutput" Margin="10" HorizontalAlignment="Left" Grid.Column="3"  Grid.Row="3" />
+
+            <TextBlock  Grid.Column="0"  Grid.Row="4" Margin="10" Text="Email : "/>
+            <TextBlock x:Name="emailOutput" Margin="10" HorizontalAlignment="Left" Grid.Column="4"  Grid.Row="4" />
+
+        </Grid>
+        <TextBox Grid.Row="2" IsReadOnly="True" x:Name="personInfo" />
     </Grid>
 </Page>

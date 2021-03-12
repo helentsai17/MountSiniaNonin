@@ -11,13 +11,45 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-            <StackPanel>
-                <Button x:ConnectionId='3' Content="create user"                                    />
-                <Button x:ConnectionId='4' Content="edit"                            />
+            <StackPanel Orientation="Horizontal">
+            <Button x:ConnectionId='8' Margin="10" Content="Create User"                              />
+            <!--<Button Margin="10" Content="Read user Data" Click="create_local_userinfo_click"/>-->
+                <Button x:ConnectionId='9' Content="edit"                            />
         </StackPanel>
-        <TextBox x:ConnectionId='2' Grid.Row="1" IsReadOnly="True" x:Name="personInfo" />
+        
+  
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Column="0" Margin="10" Text="Frist Name :"/>
+            <TextBlock x:ConnectionId='3' x:Name="fNameOutput" Margin="10" HorizontalAlignment="Left"  Grid.Column="1" Width="300"/>
+
+            <TextBlock Grid.Column="0"  Grid.Row="1" Margin="10" Text="Last Name : "/>
+            <TextBlock x:ConnectionId='4' x:Name="LNameOutput" Margin="10" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="1" />
+
+            <TextBlock  Grid.Column="0"  Grid.Row="2" Margin="10" Text="Address : "/>
+            <TextBlock x:ConnectionId='5' x:Name="addressOutput" Margin="10" HorizontalAlignment="Left" Grid.Column="2"  Grid.Row="2" />
+
+            <TextBlock  Grid.Column="0"  Grid.Row="3" Margin="10" Text="phone Number : "/>
+            <TextBlock x:ConnectionId='6' x:Name="phoneOutput" Margin="10" HorizontalAlignment="Left" Grid.Column="3"  Grid.Row="3" />
+
+            <TextBlock  Grid.Column="0"  Grid.Row="4" Margin="10" Text="Email : "/>
+            <TextBlock x:ConnectionId='7' x:Name="emailOutput" Margin="10" HorizontalAlignment="Left" Grid.Column="4"  Grid.Row="4" />
+
+        </Grid>
+        <TextBox x:ConnectionId='2' Grid.Row="2" IsReadOnly="True" x:Name="personInfo" />
     </Grid>
 </Page>
 

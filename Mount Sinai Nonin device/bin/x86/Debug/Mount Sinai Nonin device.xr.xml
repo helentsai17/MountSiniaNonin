@@ -8,17 +8,34 @@
       <RootProperty Name="Resources" />
     </RootType>
     <RootType FullName="Microsoft.Xaml.DirectUI.ProxyTypes.ThemeResourceExtension" />
+    <RootType FullName="Windows.UI.Xaml.Controls.StackPanel">
+      <RootProperty Name="Children" />
+      <RootProperty Name="Orientation" />
+      <RootProperty Name="HorizontalAlignment" />
+      <RootProperty Name="Margin" />
+    </RootType>
     <RootType FullName="Windows.UI.Xaml.Controls.Grid">
       <RootProperty Name="Margin" />
       <RootProperty Name="ColumnDefinitions" />
       <RootProperty Name="RowDefinitions" />
       <RootProperty Name="Children" />
-      <RootMethod Name="GetRow" />
-      <RootMethod Name="SetRow" />
       <RootMethod Name="GetColumn" />
       <RootMethod Name="SetColumn" />
-      <RootMethod Name="GetRowSpan" />
-      <RootMethod Name="SetRowSpan" />
+      <RootMethod Name="GetRow" />
+      <RootMethod Name="SetRow" />
+      <RootMethod Name="GetColumnSpan" />
+      <RootMethod Name="SetColumnSpan" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.Button">
+      <RootProperty Name="Padding" />
+      <RootProperty Name="Margin" />
+      <RootProperty Name="Content" />
+      <RootProperty Name="Visibility" />
+      <RootProperty Name="FontSize" />
+      <RootProperty Name="Background" />
+      <RootProperty Name="VerticalAlignment" />
+      <RootProperty Name="IsEnabled" />
+      <RootEvent Name="Click" />
     </RootType>
     <RootType FullName="Windows.UI.Xaml.Controls.ColumnDefinition">
       <RootProperty Name="Width" />
@@ -26,11 +43,23 @@
     <RootType FullName="Windows.UI.Xaml.Controls.RowDefinition">
       <RootProperty Name="Height" />
     </RootType>
-    <RootType FullName="Windows.UI.Xaml.Controls.StackPanel">
-      <RootProperty Name="Children" />
+    <RootType FullName="Windows.UI.Xaml.Controls.TextBlock">
       <RootProperty Name="Margin" />
+      <RootProperty Name="Text" />
+      <RootProperty Name="TextWrapping" />
+      <RootProperty Name="FontSize" />
       <RootProperty Name="HorizontalAlignment" />
+      <RootProperty Name="Inlines" />
+      <RootProperty Name="Width" />
     </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.TextBox">
+      <RootProperty Name="HorizontalAlignment" />
+      <RootProperty Name="PlaceholderText" />
+      <RootProperty Name="Width" />
+      <RootProperty Name="IsReadOnly" />
+      <RootEvent Name="TextChanged" />
+    </RootType>
+    <RootType FullName="Mount_Sinai_Nonin_device.createUser" />
     <RootType FullName="Windows.UI.Xaml.Controls.Border">
       <RootProperty Name="BorderBrush" />
       <RootProperty Name="BorderThickness" />
@@ -38,31 +67,6 @@
       <RootProperty Name="Child" />
       <RootProperty Name="HorizontalAlignment" />
       <RootProperty Name="VerticalAlignment" />
-    </RootType>
-    <RootType FullName="Windows.UI.Xaml.Controls.ProgressRing">
-      <RootProperty Name="HorizontalAlignment" />
-      <RootProperty Name="Margin" />
-      <RootProperty Name="VerticalAlignment" />
-      <RootProperty Name="Visibility" />
-      <RootProperty Name="IsActive" />
-    </RootType>
-    <RootType FullName="Windows.UI.Xaml.Controls.Button">
-      <RootProperty Name="Content" />
-      <RootProperty Name="Visibility" />
-      <RootProperty Name="Margin" />
-      <RootProperty Name="FontSize" />
-      <RootProperty Name="Background" />
-      <RootProperty Name="VerticalAlignment" />
-      <RootProperty Name="Padding" />
-      <RootProperty Name="IsEnabled" />
-      <RootEvent Name="Click" />
-    </RootType>
-    <RootType FullName="Windows.UI.Xaml.Controls.TextBlock">
-      <RootProperty Name="TextWrapping" />
-      <RootProperty Name="Text" />
-      <RootProperty Name="FontSize" />
-      <RootProperty Name="HorizontalAlignment" />
-      <RootProperty Name="Inlines" />
     </RootType>
     <RootType FullName="Microsoft.Xaml.DirectUI.ProxyTypes.BindExtension">
       <RootProperty Name="Mode" />
@@ -74,7 +78,12 @@
       <RootProperty Name="Visibility" />
       <RootEvent Name="SelectionChanged" />
     </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.ProgressRing">
+      <RootProperty Name="Visibility" />
+      <RootProperty Name="IsActive" />
+    </RootType>
     <RootType FullName="Mount_Sinai_Nonin_device.DataDisplay" />
+    <RootType FullName="Mount_Sinai_Nonin_device.editUser" />
     <RootType FullName="Windows.UI.Xaml.Controls.SplitView">
       <RootProperty Name="IsPaneOpen" />
       <RootProperty Name="DisplayMode" />
@@ -109,15 +118,19 @@
       <RootProperty Name="BorderThickness" />
       <RootProperty Name="Content" />
     </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.CheckBox">
+      <RootProperty Name="Content" />
+      <RootProperty Name="Margin" />
+      <RootProperty Name="VerticalAlignment" />
+      <RootProperty Name="Height" />
+      <RootProperty Name="Width" />
+    </RootType>
     <RootType FullName="Windows.UI.Xaml.Controls.ListView">
       <RootProperty Name="ItemTemplate" />
       <RootProperty Name="ItemsSource" />
     </RootType>
     <RootType FullName="Microsoft.Xaml.DirectUI.ProxyTypes.StaticResourceExtension" />
     <RootType FullName="Mount_Sinai_Nonin_device.ScanAndPair" />
-    <RootType FullName="Windows.UI.Xaml.Controls.TextBox">
-      <RootProperty Name="IsReadOnly" />
-    </RootType>
     <RootType FullName="Mount_Sinai_Nonin_device.UserInfo" />
   </Roots.RootTypes>
 </Roots>

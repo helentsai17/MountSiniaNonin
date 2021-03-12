@@ -26,14 +26,13 @@
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition />
         </Grid.RowDefinitions>
         <StackPanel>
             <TextBlock Text="Mount Sinai Nonin 3150 device" FontSize="30"/>
-       
-            <TextBlock Text="Find device Nonin 3150 and lick pair if it's already paired(IsPaird: true) move to the next step"/>
-            <Button x:ConnectionId='9' x:Name="EnumerateButton" Content="Start finding device"                                        />
-            <Button x:ConnectionId='10' x:Name="PairButton" Content="Pair"                                   Margin="0,0,10,0"
+            <TextBlock Text="click the device"/>
+            <!--<Button x:Name="EnumerateButton" Content="Start finding device" Click="{x:Bind EnumerateButton_Click}" Visibility="Collapsed"/>-->
+            <Button x:ConnectionId='9' x:Name="PairButton" Content="Pair"                                   Margin="0,10,0,0"
                                                                                                                                                        />
         </StackPanel>
         <ScrollViewer VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto" Grid.Row="1" Margin="0,10,0,0"
@@ -43,6 +42,8 @@
                       ItemTemplate="{StaticResource ResultsListViewTemplate}"
                                                                       />
         </ScrollViewer>
+        <CheckBox Content="CheckBox" Margin="1190,99,0,0" VerticalAlignment="Top" Height="32" Width="120"/>
+        <CheckBox Content="CheckBox" Margin="1345,195,0,0" Grid.Row="1" VerticalAlignment="Top" Height="32" Width="120"/>
     </Grid>
 </Page>
 

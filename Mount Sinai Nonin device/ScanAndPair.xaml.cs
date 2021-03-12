@@ -62,21 +62,21 @@ namespace Mount_Sinai_Nonin_device
             }
         }
 
-        private void EnumerateButton_Click()
-        {
-            if (deviceWatcher == null)
-            {
-                StartBleDeviceWatcher();
-                EnumerateButton.Content = "Stop device search";
-              //  rootPage.NotifyUser($"Device watcher started.", NotifyType.StatusMessage);
-            }
-            else
-            {
-                StopBleDeviceWatcher();
-                EnumerateButton.Content = "Find device";
-               //s rootPage.NotifyUser($"Device watcher stopped.", NotifyType.StatusMessage);
-            }
-        }
+        //private void EnumerateButton_Click()
+        //{
+        //    if (deviceWatcher == null)
+        //    {
+        //        StartBleDeviceWatcher();
+        //        EnumerateButton.Content = "Stop device search";
+        //      //  rootPage.NotifyUser($"Device watcher started.", NotifyType.StatusMessage);
+        //    }
+        //    else
+        //    {
+        //        StopBleDeviceWatcher();
+        //        EnumerateButton.Content = "Find device";
+        //       //s rootPage.NotifyUser($"Device watcher stopped.", NotifyType.StatusMessage);
+        //    }
+        //}
 
         private bool Not(bool value) => !value;
 
@@ -90,8 +90,7 @@ namespace Mount_Sinai_Nonin_device
             // BT_Code: Example showing paired and non-paired in a single query.
             string aqsAllBluetoothLEDevices = "(System.Devices.Aep.ProtocolId:=\"{bb7bb05e-5972-42b5-94fc-76eaa7084d49}\")";
            
-            deviceWatcher =
-                    DeviceInformation.CreateWatcher(
+            deviceWatcher = DeviceInformation.CreateWatcher(
                         aqsAllBluetoothLEDevices,
                         requestedProperties,
                         DeviceInformationKind.AssociationEndpoint);
@@ -100,7 +99,7 @@ namespace Mount_Sinai_Nonin_device
             deviceWatcher.Added += DeviceWatcher_Added;
             deviceWatcher.Updated += DeviceWatcher_Updated;
             deviceWatcher.Removed += DeviceWatcher_Removed;
-            deviceWatcher.EnumerationCompleted += DeviceWatcher_EnumerationCompleted;
+            //deviceWatcher.EnumerationCompleted += DeviceWatcher_EnumerationCompleted;
             deviceWatcher.Stopped += DeviceWatcher_Stopped;
 
             // Start over with an empty collection.
@@ -125,7 +124,7 @@ namespace Mount_Sinai_Nonin_device
                 deviceWatcher.Added -= DeviceWatcher_Added;
                 deviceWatcher.Updated -= DeviceWatcher_Updated;
                 deviceWatcher.Removed -= DeviceWatcher_Removed;
-                deviceWatcher.EnumerationCompleted -= DeviceWatcher_EnumerationCompleted;
+                //deviceWatcher.EnumerationCompleted -= DeviceWatcher_EnumerationCompleted;
                 deviceWatcher.Stopped -= DeviceWatcher_Stopped;
 
                 // Stop the watcher.
@@ -174,7 +173,7 @@ namespace Mount_Sinai_Nonin_device
                         // Make sure device isn't already present in the list.
                         if (FindBluetoothLEDeviceDisplay(deviceInfo.Id) == null && deviceInfo.Name.ToUpper().Contains("NONIN"))
                         {
-                            if (deviceInfo.Name != string.Empty && deviceInfo.Name.ToUpper().Contains("NONIN"))
+                            if (deviceInfo.Name != string.Empty )
                             {
                                 // If device has a friendly name display it immediately.
                                 KnownDevices.Add(new BluetoothLEDeviceDisplay(deviceInfo));
@@ -256,19 +255,18 @@ namespace Mount_Sinai_Nonin_device
             });
         }
 
-        private async void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender, object e)
-        {
-            // We must update the collection on the UI thread because the collection is databound to a UI element.
+        //private async void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender, object e)
+        //{
+        //    // We must update the collection on the UI thread because the collection is databound to a UI element.
         //    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-           // {
-                // Protect against race condition if the task runs after the app stopped the deviceWatcher.
-                //if (sender == deviceWatcher)
-             //   {
-                  //  rootPage.NotifyUser($"{KnownDevices.Count} devices found. Enumeration completed.",
-                    //   NotifyType.StatusMessage);
-             //   }
-           // });
-        }
+        //    {
+        //         //Protect against race condition if the task runs after the app stopped the deviceWatcher.
+        //         if (sender == deviceWatcher)
+        //         {
+        //            rootPage.NotifyUser($"{KnownDevices.Count} devices found. Enumeration completed.", NotifyType.StatusMessage);
+        //         }
+        //    });
+        //}
 
         private async void DeviceWatcher_Stopped(DeviceWatcher sender, object e)
         {
@@ -285,7 +283,8 @@ namespace Mount_Sinai_Nonin_device
         }
 
         #region Pairing
-
+        
+        // is Busy is checking if the device is paired already 
         private bool isBusy = false;
 
         private async void PairButton_Click()

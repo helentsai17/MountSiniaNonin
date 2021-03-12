@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "FthWjTun83m6bwASOhhk8BXoioetutLp6txJaFVct2/UBVKVKvfcOawTUojpAJVw1LHABck6IRgDDdU6lsoTzw==",
+  "dgSpecHash": "Q4Q8gDak5bVAsuv6LKnfuB4AaSs3pkMeYlexhYUG8Oktk81r7WE8sLnKD726Lmq9xit7/wJbGbO1bwHw4uQ1XQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\WRK_PC\\source\\repos\\Mount Sinai Nonin device\\Mount Sinai Nonin device\\Mount Sinai Nonin device.csproj",
   "expectedPackageFiles": [
@@ -32,7 +32,10 @@
     "C:\\Program Files (x86)\\Microsoft SDKs\\UWPNuGetPackages\\runtime.win10-x86.microsoft.net.uwpcoreruntimesdk\\2.2.10\\runtime.win10-x86.microsoft.net.uwpcoreruntimesdk.2.2.10.nupkg.sha512",
     "C:\\Program Files (x86)\\Microsoft SDKs\\UWPNuGetPackages\\runtime.win10-x86.microsoft.netcore.universalwindowsplatform\\6.2.10\\runtime.win10-x86.microsoft.netcore.universalwindowsplatform.6.2.10.nupkg.sha512",
     "C:\\Users\\WRK_PC\\.nuget\\packages\\sampledependency\\1.0.0\\sampledependency.1.0.0.nupkg.sha512",
-    "C:\\Users\\WRK_PC\\.nuget\\packages\\system.valuetuple\\4.5.0\\system.valuetuple.4.5.0.nupkg.sha512"
+    "C:\\Users\\WRK_PC\\.nuget\\packages\\system.valuetuple\\4.5.0\\system.valuetuple.4.5.0.nupkg.sha512",
+    "C:\\Users\\WRK_PC\\.nuget\\packages\\winrtxamltoolkit\\2.3.0\\winrtxamltoolkit.2.3.0.nupkg.sha512",
+    "C:\\Users\\WRK_PC\\.nuget\\packages\\winrtxamltoolkit.controls.datavisualization\\2.3.0\\winrtxamltoolkit.controls.datavisualization.2.3.0.nupkg.sha512",
+    "C:\\Users\\WRK_PC\\.nuget\\packages\\winrtxamltoolkit.controls.datavisualization.uwp\\2.3.0\\winrtxamltoolkit.controls.datavisualization.uwp.2.3.0.nupkg.sha512"
   ],
   "logs": [
     {

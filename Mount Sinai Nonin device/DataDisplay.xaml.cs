@@ -169,6 +169,7 @@ namespace Mount_Sinai_Nonin_device
             if (bluetoothLeDevice != null)
             {
                 LoadAsync();
+
                 GattDeviceServicesResult result = await bluetoothLeDevice.GetGattServicesAsync(BluetoothCacheMode.Uncached);
                 
                 if (result.Status == GattCommunicationStatus.Success)
@@ -219,7 +220,7 @@ namespace Mount_Sinai_Nonin_device
         public async Task LoadAsync()
         {
             progressring.IsActive = true;
-            await Task.Delay(4000);
+            await Task.Delay(5000);
             progressring.IsActive = false;
             ShareButton.Visibility = Visibility.Visible;
         }
@@ -338,7 +339,7 @@ namespace Mount_Sinai_Nonin_device
             return pitMS.ToString() + "/ms";
         }
 
-#endregion
+        #endregion
 
         #region SpO2 from continous Oximetry 
 
@@ -731,7 +732,7 @@ namespace Mount_Sinai_Nonin_device
 
             foreach (GattCharacteristic c in characteristics)
             {
-                CharacteristicList.Items.Add(new ComboBoxItem { Content = c.Uuid, Tag = c });
+                CharacteristicList.Items.Add(new ComboBoxItem { Content = DisplayHelpers.GetCharacteristicName(c), Tag = c });
             }
             CharacteristicList.Visibility = Visibility.Visible;
         }
@@ -924,8 +925,7 @@ namespace Mount_Sinai_Nonin_device
 
         private string FormatValueByPresentation(IBuffer buffer, GattPresentationFormat format)
         {
-            // BT_Code: For the purpose of this sample, this function converts only UInt32 and
-            // UTF-8 buffers to readable text. It can be extended to support other formats if your app needs them.
+
             byte[] data;
             CryptographicBuffer.CopyToByteArray(buffer, out data);
             if (format != null)
@@ -945,17 +945,6 @@ namespace Mount_Sinai_Nonin_device
                         return "(error: Invalid UTF-8 string)";
                     }
                 }
-                else if (format.FormatType == GattPresentationFormatTypes.UInt16)
-                {
-                    try
-                    {
-                        return BitConverter.ToInt16(data,0).ToString();
-                    }
-                    catch (ArgumentException)
-                    {
-                        return "(error: Invalid UTF-16 string)";
-                    }
-                }
                 else
                 {
                     // Add support for other format types as needed.
@@ -969,8 +958,7 @@ namespace Mount_Sinai_Nonin_device
                 {
                     try
                     {
-
-                        return ParseHeartRateValue(data).ToString();
+                        return "Heart Rate: " + ParseHeartRateValue(data).ToString();
                     }
                     catch (ArgumentException)
                     {
@@ -1012,7 +1000,7 @@ namespace Mount_Sinai_Nonin_device
                     }
                     catch (ArgumentException)
                     {
-                        return "Unknown format uuid" + registeredCharacteristic.Uuid ;
+                        return "Unknown format";
                     }
                 }
             }
@@ -1020,7 +1008,7 @@ namespace Mount_Sinai_Nonin_device
             {
                 return "Empty data received";
             }
-            return BitConverter.ToString(data);
+            return "Unknown format";
         }
 
         
