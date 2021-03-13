@@ -9,9 +9,37 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <StackPanel>
-        <TextBlock FontSize="50" Text="Edit information"/>
+        <TextBlock Margin="20, 20, 0, 0" FontSize="50" Text="Edit information"/>
+        <Grid Margin="50,50,100,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Column="0" Margin="10" Text="Frist Name :"/>
+            <TextBox x:ConnectionId='4' x:Name="firstNameInput" HorizontalAlignment="Left" Grid.Column="1" PlaceholderText="enter first name " Width="300"                                  />
+
+            <TextBlock Grid.Column="0"  Grid.Row="1" Margin="10" Text="Last Name : "/>
+            <TextBox x:ConnectionId='5' x:Name="lastNameInput" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="1" PlaceholderText="enter last name " Width="300"                                  />
+
+            <TextBlock  Grid.Column="0"  Grid.Row="2" Margin="10" Text="Address : "/>
+            <TextBox x:ConnectionId='6' x:Name="addressInput" HorizontalAlignment="Left" Grid.Column="2"  Grid.Row="2" PlaceholderText="Address" Width="300"                                  />
+
+            <TextBlock  Grid.Column="0"  Grid.Row="3" Margin="10" Text="phone Number : "/>
+            <TextBox x:ConnectionId='7' x:Name="phoneInput" HorizontalAlignment="Left" Grid.Column="3"  Grid.Row="3" PlaceholderText="phone number" Width="300"                                  />
+
+            <TextBlock  Grid.Column="0"  Grid.Row="4" Margin="10" Text="Email : "/>
+            <TextBox x:ConnectionId='8' x:Name="emailInput" HorizontalAlignment="Left" Grid.Column="4"  Grid.Row="4" PlaceholderText="Email" Width="300"                                  />
+
+        </Grid>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-            <Button x:ConnectionId='2' Padding="10" Margin="100, 20, 50, 20" Content="edit"                       />
+            <Button x:ConnectionId='2' Padding="10" Margin="300, 20, 50, 20" Content="edit"                       />
             <Button x:ConnectionId='3' Padding="10" Content="Cancel"                         />
         </StackPanel>
     </StackPanel>

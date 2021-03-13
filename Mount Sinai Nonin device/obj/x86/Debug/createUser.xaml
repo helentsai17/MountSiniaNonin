@@ -8,8 +8,8 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <StackPanel>
-    
-    <Grid Margin="100,100,100,10">
+        <TextBlock Text="Create user Information" FontSize="50"/>
+        <Grid Margin="50,50,100,10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="120"/>
             <ColumnDefinition/>
@@ -37,7 +37,7 @@
             <TextBox x:ConnectionId='8' x:Name="emailInput" HorizontalAlignment="Left" Grid.Column="4"  Grid.Row="4" PlaceholderText="Email" Width="300"                                  />
 
     </Grid>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
             <Button x:ConnectionId='2' Padding="10" Margin="100, 20, 50, 20" Content="Submit"                         />
             <Button x:ConnectionId='3' Padding="10" Content="Cancel"                           />
         </StackPanel>

@@ -30,13 +30,13 @@
     <AppXManifest Include="C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2021-03-12T22:39:13.033</Modified>
+      <Modified>2021-03-13T18:56:59.824</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\Mount Sinai Nonin device.exe">
       <PackagePath>entrypoint\Mount Sinai Nonin device.exe</PackagePath>
-      <Modified>2021-03-12T22:39:12.240</Modified>
+      <Modified>2021-03-13T18:56:58.538</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\WRK_PC\.nuget\packages\kaychart.dll\0.4.7\lib\net45\kayChart.dll">
       <PackagePath>kayChart.dll</PackagePath>
@@ -122,35 +122,35 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\Mount Sinai Nonin device.xr.xml">
       <PackagePath>Mount Sinai Nonin device.xr.xml</PackagePath>
-      <Modified>2021-03-12T22:28:18.445</Modified>
+      <Modified>2021-03-12T23:20:29.607</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\App.xbf">
       <PackagePath>App.xbf</PackagePath>
-      <Modified>2021-03-12T22:39:12.088</Modified>
+      <Modified>2021-03-13T18:52:27.143</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\createUser.xbf">
       <PackagePath>createUser.xbf</PackagePath>
-      <Modified>2021-03-12T22:39:12.088</Modified>
+      <Modified>2021-03-13T18:52:27.143</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\DataDisplay.xbf">
       <PackagePath>DataDisplay.xbf</PackagePath>
-      <Modified>2021-03-12T22:39:12.088</Modified>
+      <Modified>2021-03-13T18:52:27.144</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\editUser.xbf">
       <PackagePath>editUser.xbf</PackagePath>
-      <Modified>2021-03-12T22:39:12.089</Modified>
+      <Modified>2021-03-13T18:52:27.144</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\MainPage.xbf">
       <PackagePath>MainPage.xbf</PackagePath>
-      <Modified>2021-03-12T22:39:12.089</Modified>
+      <Modified>2021-03-13T18:52:27.144</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\ScanAndPair.xbf">
       <PackagePath>ScanAndPair.xbf</PackagePath>
-      <Modified>2021-03-12T22:39:12.089</Modified>
+      <Modified>2021-03-13T18:52:27.144</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\UserInfo.xbf">
       <PackagePath>UserInfo.xbf</PackagePath>
-      <Modified>2021-03-12T22:39:12.089</Modified>
+      <Modified>2021-03-13T18:52:27.144</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\10.0.18362.0\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
@@ -162,7 +162,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\WRK_PC\source\repos\Mount Sinai Nonin device\Mount Sinai Nonin device\bin\x86\Debug\Core\Mount Sinai Nonin device.exe">
       <PackagePath>Mount Sinai Nonin device.exe</PackagePath>
-      <Modified>2021-03-12T22:39:13.028</Modified>
+      <Modified>2021-03-13T18:56:59.818</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

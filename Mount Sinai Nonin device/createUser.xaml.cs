@@ -42,6 +42,8 @@ namespace Mount_Sinai_Nonin_device
         {
             base.OnNavigatedTo(e);
             _MainViewId = (int)e.Parameter;
+
+
         }
 
         private async void Create_UserClick(object sender, RoutedEventArgs e)
@@ -73,7 +75,7 @@ namespace Mount_Sinai_Nonin_device
                 var text = JsonConvert.SerializeObject(_user);
                 await FileIO.WriteTextAsync(newfile, text);
             }
-
+            
             await ApplicationViewSwitcher.TryShowAsStandaloneAsync(_MainViewId);
             Window.Current.Close();
 

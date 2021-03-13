@@ -133,7 +133,7 @@ namespace Mount_Sinai_Nonin_device
                 Window.Current.Activate();
                 newViewID = ApplicationView.GetForCurrentView().Id;
             });
-            await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newViewID);
+            await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newViewID, ViewSizePreference.UseMinimum);
         }
     }
 

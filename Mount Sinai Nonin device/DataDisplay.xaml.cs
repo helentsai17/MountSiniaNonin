@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,6 +13,7 @@ using Windows.Devices.Enumeration;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Security.Cryptography;
+using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -64,12 +66,15 @@ namespace Mount_Sinai_Nonin_device
         //timer
         String Timer;
 
+        // user data
+        string userfilename = "userinfo.json";
+        userinfomation[] _user = Array.Empty<userinfomation>();
         public DataDisplay()
         {
             this.InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             SelectedDeviceRun.Text = rootPage.SelectedBleDeviceName;
             if (string.IsNullOrEmpty(rootPage.SelectedBleDeviceId))
@@ -81,11 +86,31 @@ namespace Mount_Sinai_Nonin_device
             DataTransferManager dtm = DataTransferManager.GetForCurrentView();
             dtm.DataRequested += Dtm_DataRequested;
 
+            //get user data
+            var folder = ApplicationData.Current.LocalFolder;
+            var file = await folder.TryGetItemAsync(userfilename) as IStorageFile;
+
+            if (file != null)
+            {
+                var text = await FileIO.ReadTextAsync(file);
+                _user = JsonConvert.DeserializeObject<userinfomation[]>(text);
+                
+            }
+
         }
 
+        String sendUserData = "";
         //sending data
         private void Dtm_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
+            if (_user != null )
+            {
+                var getuserinfo = _user[0];
+
+                sendUserData = "name: " + getuserinfo.firstName + " " + getuserinfo.lastName + "\n address:" + getuserinfo.address;
+
+            }
+
             DataRequest request = args.Request;
             
            //TODO if device dose not connect then can not be shared
@@ -93,7 +118,7 @@ namespace Mount_Sinai_Nonin_device
 
             request.Data.Properties.Title = "Nonin 3150 device";
             request.Data.Properties.Description = "sharing your data to mount sinai";
-            request.Data.SetText("data come from device: " + rootPage.SelectedBleDeviceName +"\n SpO2 data" + SpO2Share +"\n heart rate data: " + heartrateShare + "\n at " + Timer);
+            request.Data.SetText("data come from device: " + rootPage.SelectedBleDeviceName +"\n SpO2 data" + SpO2Share +"\n heart rate data: " + heartrateShare + "\n at " + Timer + "\n ____________________\n" + sendUserData);
         }
 
         protected override async void OnNavigatedFrom(NavigationEventArgs e)

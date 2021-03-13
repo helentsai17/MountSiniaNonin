@@ -34,6 +34,8 @@ namespace Mount_Sinai_Nonin_device
             this.InitializeComponent();
             Current = this;
             SystemNavigationManager.GetForCurrentView().BackRequested += MainPage_BackRequested;
+            ApplicationView.PreferredLaunchViewSize = new Size(850, 600);
+            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
             Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(320, 320));
             Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().VisibleBoundsChanged += MainPage_VisibleBoundsChanged;
         }
